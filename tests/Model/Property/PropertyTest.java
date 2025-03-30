@@ -57,29 +57,4 @@ public class PropertyTest {
         property.setOwner(owner);
         assertEquals(50, property.calculateRent(owner));
     }
-
-//    @Test
-//    public void testMortgage() throws PlayerNotFoundException {
-//        property.setOwner(owner);
-//        assertTrue(property.mortgage());
-//        assertTrue(property.isMortgaged());
-//        assertEquals(0, property.calculateRent());
-//    }
-//
-//    @Test
-//    public void testOnLandingNoOwner() throws PlayerNotFoundException {
-//        int initialMoney = banker.getBalance(otherPlayer);
-//        property.onLanding(otherPlayer);
-//        assertEquals(initialMoney, banker.getBalance(otherPlayer));
-//    }
-//
-//    @Test
-//    public void testOnLandingWithOwner() throws PlayerNotFoundException {
-//        property.setOwner(owner);
-//        int initialOtherPlayerMoney = banker.getBalance(otherPlayer);
-//        int initialOwnerMoney = banker.getBalance(owner);
-//        property.onLanding(otherPlayer);
-//        assertTrue(banker.getBalance(otherPlayer) < initialOtherPlayerMoney);
-//        assertTrue(banker.getBalance(owner)> initialOwnerMoney);
-//    }
 }

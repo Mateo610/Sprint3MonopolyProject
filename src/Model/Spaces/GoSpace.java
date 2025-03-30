@@ -13,9 +13,7 @@ import Model.Exceptions.PlayerNotFoundException;
 import Model.Board.Player;
 
 public class GoSpace extends BoardSpace {
-
-    private static final int GO_MONEY = 200;
-    private Banker banker;
+    protected Banker banker;
 
     /**
      * Constructor for GoSpace
@@ -76,7 +74,7 @@ public class GoSpace extends BoardSpace {
      */
     @Override
     public void onLanding(Player player) throws PlayerNotFoundException {
-        banker.payGoMoney(player);
+        this.banker.payGoMoney(player);
     }
 
     /**
@@ -87,6 +85,6 @@ public class GoSpace extends BoardSpace {
      */
     @Override
     public void onPassing(Player player) throws PlayerNotFoundException {
-        banker.deposit(player, GO_MONEY);
+        this.banker.payGoMoney(player);
     }
 }

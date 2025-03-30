@@ -10,8 +10,12 @@ import Model.Exceptions.InsufficientFundsException;
 import Model.Exceptions.InvalidTransactionException;
 import Model.Exceptions.PlayerAlreadyExistsException;
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Property.ColorGroup;
 import Model.Property.Property;
+import Model.Property.PropertyColor;
 import Model.Spaces.BoardSpace;
+import Model.Spaces.Railroad;
+import Model.Spaces.UtilitySpace;
 
 import java.util.*;
 
@@ -33,17 +37,18 @@ public class Banker {
         this.availableHouses = MAX_HOUSES;
         this.availableHotels = MAX_HOTELS;
         this.titleDeeds = new HashMap<>();
+        initializeProperties();
     }
 
 
     /**
-     * Initialize properties at the start of the game
+     * Get the list of available properties
      *
-     * @param properties List of all properties on the board
-     * Team member(s) responsible: Matt, Jamell
+     * @return List of available properties
+     * Team member(s) responsible: Jamell
      */
-    public void initializeProperties(List<BoardSpace> properties) {
-        this.availableProperties.addAll(properties);
+    public ArrayList<BoardSpace> getAvailableProperties() {
+        return availableProperties;
     }
 
     /**
@@ -220,7 +225,6 @@ public class Banker {
 
     /**
      * Sell a property to a player
-     *
      * @param property The property to sell
      * @param player   The player buying the property
      * @throws PlayerNotFoundException    if player is not found
@@ -296,7 +300,6 @@ public class Banker {
         if (property.getNumHouses() != 4) {
             throw new InvalidTransactionException();
         }
-
         int hotelPrice = property.getHousePrice();
         withdraw(player, hotelPrice);
         property.addHotel();
@@ -306,7 +309,6 @@ public class Banker {
 
     /**
      * Buy back a house from a player
-     *
      * @param property The property to remove a house from
      * @param player   The player selling the house
      * @throws PlayerNotFoundException if player is not found
@@ -328,7 +330,7 @@ public class Banker {
      * @param property The property to remove a hotel from
      * @param player   The player selling the hotel
      * @throws PlayerNotFoundException if player is not found
-     *                                 Team member(s) responsible: Matt
+     * Team member(s) responsible: Matt
      */
     public void buyBackHotel(Property property, Player player) throws PlayerNotFoundException {
         if (property.getOwner() != player || !property.hasHotel()) {
@@ -361,7 +363,6 @@ public class Banker {
 
     /**
      * Get the number of available houses
-     *
      * @return Number of houses
      * Team member(s) responsible: Matt
      */
@@ -371,7 +372,6 @@ public class Banker {
 
     /**
      * Get the number of available hotels
-     *
      * @return Number of hotels
      * Team member(s) responsible: Matt
      */
@@ -379,166 +379,215 @@ public class Banker {
         return availableHotels;
     }
 
-    /**
-     * Conducts an auction for a property among a list of bidders.
-     * @param property The property being auctioned
-     * @param bidders The players participating in the auction
-     * @return The winning player, or null if no one won the auction
-     * Team member(s) responsible: Matt
-     */
-    public Player auctionProperty(BoardSpace property, List<Player> bidders) {
-        // Validation
-        if (property == null || bidders == null || bidders.isEmpty()) {
-            System.out.println("Cannot conduct auction: Invalid property or no bidders.");
-            return null;
-        }
-        
-        System.out.println("\nAuction for " + property.getName() + " (Value: $" + property.getPurchasePrice() + ")");
-        
-        int highestBid = 0;
-        Player highestBidder = null;
-        
-        // Keep track of active bidders
-        Map<Player, Boolean> stillBidding = new HashMap<>();
-        for (Player player : bidders) {
-            stillBidding.put(player, true);
-        }
-        
-        // Continue auction until only one player is left bidding or all pass
-        boolean auctionActive = true;
-        while (auctionActive) {
-            // Count players still in the auction
-            int activeBidders = 0;
-            for (Boolean active : stillBidding.values()) {
-                if (active) activeBidders++;
-            }
-            
-            // If only one or zero active bidders remain, end the auction
-            if (activeBidders <= 1) {
-                auctionActive = false;
-                break;
-            }
-            
-            // Each player gets a chance to bid
-            for (Player player : bidders) {
-                // Skip players who have already passed
-                if (!stillBidding.get(player)) {
-                    continue;
-                }
-                
-                try {
-                    // Skip if player can't afford to bid higher than current bid
-                    if (getBalance(player) <= highestBid) {
-                        stillBidding.put(player, false);
-                        System.out.println(player.getName() + " cannot afford to bid higher and is out of the auction.");
-                        continue;
-                    }
-                    
-                    // Get bid from player (simplified for testing)
-                    int maxPossibleBid = getBalance(player);
-                    int bid = getBidFromPlayer(player, property, highestBid, maxPossibleBid);
-                    
-                    // Player passes
-                    if (bid <= highestBid) {
-                        stillBidding.put(player, false);
-                        System.out.println(player.getName() + " passes on bidding for " + property.getName());
-                        continue;
-                    }
-                    
-                    // Valid bid
-                    highestBid = bid;
-                    highestBidder = player;
-                    System.out.println(player.getName() + " bids $" + bid + " for " + property.getName());
-                    
-                } catch (PlayerNotFoundException e) {
-                    System.out.println("Error: " + e.getMessage());
-                    stillBidding.put(player, false);
-                }
-            }
-            
-            // Check if only one bidder remains active
-            activeBidders = 0;
-            for (Boolean active : stillBidding.values()) {
-                if (active) activeBidders++;
-            }
-            
-            if (activeBidders <= 1) {
-                auctionActive = false;
-            }
-        }
-        
-        // Process the winning bid
-        if (highestBidder != null && highestBid > 0) {
-            try {
-                // Transfer money and update property ownership
-                withdraw(highestBidder, highestBid);
-                property.setOwner(highestBidder);
-                addTitleDeed(highestBidder, property);
-                
-                System.out.println(highestBidder.getName() + " won the auction for " + 
-                                property.getName() + " with a bid of $" + highestBid);
-                
-            } catch (PlayerNotFoundException e) {
-                System.out.println("Error processing auction transaction: " + e.getMessage());
-                return null;
-            }
-        } else {
-            System.out.println("No bids were placed. " + property.getName() + " remains with the bank.");
-        }
-        
-        return highestBidder;
-    }
+//    /**
+//     * Conducts an auction for a property among a list of bidders.
+//     * @param property The property being auctioned
+//     * @param bidders The players participating in the auction
+//     * @return The winning player, or null if no one won the auction
+//     * Team member(s) responsible: Matt
+//     */
+//    public Player auctionProperty(BoardSpace property, List<Player> bidders) {
+//        // Validation
+//        if (property == null || bidders == null || bidders.isEmpty()) {
+//            System.out.println("Cannot conduct auction: Invalid property or no bidders.");
+//            return null;
+//        }
+//
+//        System.out.println("\nAuction for " + property.getName() + " (Value: $" + property.getPurchasePrice() + ")");
+//
+//        int highestBid = 0;
+//        Player highestBidder = null;
+//
+//        // Keep track of active bidders
+//        Map<Player, Boolean> stillBidding = new HashMap<>();
+//        for (Player player : bidders) {
+//            stillBidding.put(player, true);
+//        }
+//
+//        // Continue auction until only one player is left bidding or all pass
+//        boolean auctionActive = true;
+//        while (auctionActive) {
+//            // Count players still in the auction
+//            int activeBidders = 0;
+//            for (Boolean active : stillBidding.values()) {
+//                if (active) activeBidders++;
+//            }
+//
+//            // If only one or zero active bidders remain, end the auction
+//            if (activeBidders <= 1) {
+//                auctionActive = false;
+//                break;
+//            }
+//
+//            // Each player gets a chance to bid
+//            for (Player player : bidders) {
+//                // Skip players who have already passed
+//                if (!stillBidding.get(player)) {
+//                    continue;
+//                }
+//
+//                try {
+//                    // Skip if player can't afford to bid higher than current bid
+//                    if (getBalance(player) <= highestBid) {
+//                        stillBidding.put(player, false);
+//                        System.out.println(player.getName() + " cannot afford to bid higher and is out of the auction.");
+//                        continue;
+//                    }
+//
+//                    // Get bid from player (simplified for testing)
+//                    int maxPossibleBid = getBalance(player);
+//                    int bid = getBidFromPlayer(player, property, highestBid, maxPossibleBid);
+//
+//                    // Player passes
+//                    if (bid <= highestBid) {
+//                        stillBidding.put(player, false);
+//                        System.out.println(player.getName() + " passes on bidding for " + property.getName());
+//                        continue;
+//                    }
+//
+//                    // Valid bid
+//                    highestBid = bid;
+//                    highestBidder = player;
+//                    System.out.println(player.getName() + " bids $" + bid + " for " + property.getName());
+//
+//                } catch (PlayerNotFoundException e) {
+//                    System.out.println("Error: " + e.getMessage());
+//                    stillBidding.put(player, false);
+//                }
+//            }
+//
+//            // Check if only one bidder remains active
+//            activeBidders = 0;
+//            for (Boolean active : stillBidding.values()) {
+//                if (active) activeBidders++;
+//            }
+//
+//            if (activeBidders <= 1) {
+//                auctionActive = false;
+//            }
+//        }
+//
+//        // Process the winning bid
+//        if (highestBidder != null && highestBid > 0) {
+//            try {
+//                // Transfer money and update property ownership
+//                withdraw(highestBidder, highestBid);
+//                property.setOwner(highestBidder);
+//                addTitleDeed(highestBidder, property);
+//
+//                System.out.println(highestBidder.getName() + " won the auction for " +
+//                                property.getName() + " with a bid of $" + highestBid);
+//
+//            } catch (PlayerNotFoundException e) {
+//                System.out.println("Error processing auction transaction: " + e.getMessage());
+//                return null;
+//            }
+//        } else {
+//            System.out.println("No bids were placed. " + property.getName() + " remains with the bank.");
+//        }
+//
+//        return highestBidder;
+//    }
+
+//    /**
+//     * Gets a bid from a player in an auction.
+//     * For computer players, uses AI logic. For human players, uses simplified logic for testing.
+//     *
+//     * @param player The player making the bid
+//     * @param property The property being auctioned
+//     * @param currentHighestBid The current highest bid
+//     * @param maxPossibleBid The maximum the player can bid
+//     * @return The bid amount, or 0 to pass
+//     * Team member(s) responsible: Matt
+//     */
+//    private int getBidFromPlayer(Player player, BoardSpace property, int currentHighestBid, int maxPossibleBid) {
+//        // Computer player logic - simplified for testing
+//        if (player.getName().startsWith("Cpu")) {
+//            // Simple strategy: bid up to 80% of property value if they can afford it
+//            int propertyValue = property.getPurchasePrice();
+//            int maxWillingToBid = (int)(propertyValue * 0.8);
+//            maxWillingToBid = Math.min(maxWillingToBid, maxPossibleBid);
+//
+//            // If current bid is already higher than willing to pay, pass
+//            if (currentHighestBid >= maxWillingToBid) {
+//                return 0; // Pass
+//            }
+//
+//            // If first bid, start at 50% of property value
+//            if (currentHighestBid == 0) {
+//                return Math.min(propertyValue / 2, maxPossibleBid);
+//            }
+//
+//            // Otherwise, bid minimum increment
+//            return currentHighestBid + 10;
+//        }
+//
+//        // Human player logic - simplified for testing
+//        // In actual implementation, this would use a GUI
+//        // For testing, just bid 75% of property value if can afford it
+//        int propertyValue = property.getPurchasePrice();
+//        int suggestedBid = (int)(propertyValue * 0.75);
+//
+//        // Make sure bid is higher than current highest bid
+//        suggestedBid = Math.max(suggestedBid, currentHighestBid + 10);
+//
+//        // Ensure can't bid more than have
+//        suggestedBid = Math.min(suggestedBid, maxPossibleBid);
+//
+//        // If can't afford to outbid, pass
+//        if (suggestedBid <= currentHighestBid) {
+//            return 0;
+//        }
+//
+//        return suggestedBid;
+//    }
+
 
     /**
-     * Gets a bid from a player in an auction.
-     * For computer players, uses AI logic. For human players, uses simplified logic for testing.
-     * 
-     * @param player The player making the bid
-     * @param property The property being auctioned
-     * @param currentHighestBid The current highest bid
-     * @param maxPossibleBid The maximum the player can bid
-     * @return The bid amount, or 0 to pass
-     * Team member(s) responsible: Matt
+     * Get the list of available properties
+     *
+     * @return List of available properties
+     * Team member(s) responsible: Jamell
      */
-    private int getBidFromPlayer(Player player, BoardSpace property, int currentHighestBid, int maxPossibleBid) {
-        // Computer player logic - simplified for testing
-        if (player.getName().startsWith("Cpu")) {
-            // Simple strategy: bid up to 80% of property value if they can afford it
-            int propertyValue = property.getPurchasePrice();
-            int maxWillingToBid = (int)(propertyValue * 0.8);
-            maxWillingToBid = Math.min(maxWillingToBid, maxPossibleBid);
-            
-            // If current bid is already higher than willing to pay, pass
-            if (currentHighestBid >= maxWillingToBid) {
-                return 0; // Pass
-            }
-            
-            // If first bid, start at 50% of property value
-            if (currentHighestBid == 0) {
-                return Math.min(propertyValue / 2, maxPossibleBid);
-            }
-            
-            // Otherwise, bid minimum increment
-            return currentHighestBid + 10;
-        }
-        
-        // Human player logic - simplified for testing
-        // In actual implementation, this would use a GUI
-        // For testing, just bid 75% of property value if can afford it
-        int propertyValue = property.getPurchasePrice();
-        int suggestedBid = (int)(propertyValue * 0.75);
-        
-        // Make sure bid is higher than current highest bid
-        suggestedBid = Math.max(suggestedBid, currentHighestBid + 10);
-        
-        // Ensure can't bid more than have
-        suggestedBid = Math.min(suggestedBid, maxPossibleBid);
-        
-        // If can't afford to outbid, pass
-        if (suggestedBid <= currentHighestBid) {
-            return 0;
-        }
-        
-        return suggestedBid;
+    private void initializeProperties() {
+        // Initialize color groups
+        ColorGroup brownGroup = new ColorGroup(PropertyColor.BROWN, 2);
+        ColorGroup lightBlueGroup = new ColorGroup(PropertyColor.LIGHT_BLUE, 3);
+        ColorGroup pinkGroup = new ColorGroup(PropertyColor.PINK, 3);
+        ColorGroup orangeGroup = new ColorGroup(PropertyColor.ORANGE, 3);
+        ColorGroup redGroup = new ColorGroup(PropertyColor.RED, 3);
+        ColorGroup yellowGroup = new ColorGroup(PropertyColor.YELLOW, 3);
+        ColorGroup greenGroup = new ColorGroup(PropertyColor.GREEN, 3);
+        ColorGroup blueGroup = new ColorGroup(PropertyColor.DARK_BLUE, 2);
+
+        // Initialize properties
+        availableProperties.add(new Property("Mediterranean Avenue", 1, 60, 2, new int[]{10, 30, 90, 160}, 250, 30, PropertyColor.BROWN, brownGroup));
+        availableProperties.add(new Property("Baltic Avenue", 3, 60, 4, new int[]{20, 60, 180, 320}, 450, 30, PropertyColor.BROWN, brownGroup));
+        availableProperties.add(new Railroad("Reading Railroad", 5));
+        availableProperties.add(new Property("Oriental Avenue", 6, 100, 6, new int[]{30, 90, 270, 400}, 550, 50, PropertyColor.LIGHT_BLUE, lightBlueGroup));
+        availableProperties.add(new Property("Vermont Avenue", 8, 100, 6, new int[]{30, 90, 270, 400}, 550, 50, PropertyColor.LIGHT_BLUE, lightBlueGroup));
+        availableProperties.add(new Property("Connecticut Avenue", 9, 120, 8, new int[]{40, 100, 300, 450}, 600, 60, PropertyColor.LIGHT_BLUE, lightBlueGroup));
+        availableProperties.add(new UtilitySpace("Electric Company", 12));
+        availableProperties.add(new Property("St. Charles Place", 11, 140, 10, new int[]{50, 150, 450, 625}, 750, 70, PropertyColor.PINK, pinkGroup));
+        availableProperties.add(new Property("States Avenue", 13, 140, 10, new int[]{50, 150, 450, 625}, 750, 70, PropertyColor.PINK, pinkGroup));
+        availableProperties.add(new Property("Virginia Avenue", 14, 160, 12, new int[]{60, 180, 500, 700}, 900, 80, PropertyColor.PINK, pinkGroup));
+        availableProperties.add(new Railroad("Pennsylvania Railroad", 15));
+        availableProperties.add(new Property("St. James Place", 16, 180, 14, new int[]{70, 200, 550, 750}, 950, 90, PropertyColor.ORANGE, orangeGroup));
+        availableProperties.add(new Property("Tennessee Avenue", 18, 180, 14, new int[]{70, 200, 550, 750}, 950, 90, PropertyColor.ORANGE, orangeGroup));
+        availableProperties.add(new Property("New York Avenue", 19, 200, 16, new int[]{80, 220, 600, 800}, 1000, 100, PropertyColor.ORANGE, orangeGroup));
+        availableProperties.add(new Property("Kentucky Avenue", 21, 220, 18, new int[]{90, 250, 700, 875}, 1050, 110, PropertyColor.RED, redGroup));
+        availableProperties.add(new Property("Indiana Avenue", 23, 220, 18, new int[]{90, 250, 700, 875}, 1050, 110, PropertyColor.RED, redGroup));
+        availableProperties.add(new Property("Illinois Avenue", 24, 240, 20, new int[]{100, 300, 750, 925}, 1100, 120, PropertyColor.RED, redGroup));
+        availableProperties.add(new Railroad("B. & O. Railroad", 25));
+        availableProperties.add(new Property("Atlantic Avenue", 26, 260, 22, new int[]{110, 330, 800, 975}, 1150, 130, PropertyColor.YELLOW, yellowGroup));
+        availableProperties.add(new Property("Ventnor Avenue", 27, 260, 22, new int[]{110, 330, 800, 975}, 1150, 130, PropertyColor.YELLOW, yellowGroup));
+        availableProperties.add(new UtilitySpace("Water Works", 28));
+        availableProperties.add(new Property("Marvin Gardens", 29, 280, 24, new int[]{120, 360, 850, 1025}, 1200, 140, PropertyColor.YELLOW, yellowGroup));
+        availableProperties.add(new Railroad("Short Line", 35));
+        availableProperties.add(new Property("Pacific Avenue", 31, 300, 26, new int[]{130, 390, 900, 1100}, 1275, 150, PropertyColor.GREEN, greenGroup));
+        availableProperties.add(new Property("North Carolina Avenue", 32, 300, 26, new int[]{130, 390, 900, 1100}, 1275, 150, PropertyColor.GREEN, greenGroup));
+        availableProperties.add(new Property("Pennsylvania Avenue", 34, 320, 28, new int[]{150, 450, 1000, 1200}, 1400, 160, PropertyColor.GREEN, greenGroup));
+        availableProperties.add(new Property("Park Place", 37, 350, 35, new int[]{175, 500, 1100, 1300}, 1500, 175, PropertyColor.DARK_BLUE, blueGroup));
+        availableProperties.add(new Property("Boardwalk", 39, 400, 50, new int[]{200, 600, 1400, 1700}, 2000, 200, PropertyColor.DARK_BLUE, blueGroup));
     }
 }

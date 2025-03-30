@@ -73,11 +73,9 @@ public class Main {
         GameBoard gameBoard3 = new GameBoard(banker3);
         Player player3 = new HumanPlayer("Charlie", gameBoard3);
         Token token = new Token("Dog");
-        PlayerMovement playerMovement = new PlayerMovement(player3, gameBoard3, banker3, token);
-        playerMovement.movePlayer(5);
-        playerMovement.movePlayer(10);
-
-
+        player3.setTokenToPlayer(token);
+        player3.move(player3,5);
+        player3.move(player3,10);
 
 
 //        system.out.println("**sprint 1 demo**");

@@ -172,6 +172,17 @@ public class BankerTest {
         assertEquals(1, banker.getPlayerProperties(player).size());
     }
 
+    @Test
+    public void testPreloadAllAvailablePropertiesAndSellToAPlayer() throws PlayerNotFoundException {
+        Banker banker = new Banker();
+        GameBoard board = new GameBoard(banker);
+        Player player = new HumanPlayer("TestPlayer", board);
+        banker.addPlayer(player);
+        assertEquals(28,banker.getAvailableProperties().size());
+        banker.sellProperty(banker.getAvailableProperties().getFirst(), player);
+        assertEquals(27, banker.getAvailableProperties().size());
+    }
+
 
 
 }

@@ -18,15 +18,15 @@ public class TaxSpace extends BoardSpace {
     private static final int INCOME_TAX_AMOUNT = 200;
     private static final int LUXURY_TAX_AMOUNT = 75;
     private static final double TAX_RATE = 0.1;
-    private Banker banker;
+    protected Banker banker;
 
-    public TaxSpace(String name, int position) {
+    public TaxSpace(String name, int position, Banker banker) {
         super(name, position);
+        this.banker = banker;
     }
 
     /**
      * Get the purchase price of the space
-     *
      * @return The purchase price of the space
      * Team member(s) responsible: Jamell
      */

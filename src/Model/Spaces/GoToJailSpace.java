@@ -9,6 +9,7 @@
 package Model.Spaces;
 
 import Model.Board.Player;
+import Model.Exceptions.PlayerNotFoundException;
 
 public class GoToJailSpace extends BoardSpace {
     /**
@@ -67,8 +68,9 @@ public class GoToJailSpace extends BoardSpace {
      *               Team member(s) responsible: Deborah
      */
     @Override
-    public void onLanding(Player player) {
+    public void onLanding(Player player) throws PlayerNotFoundException {
         player.setInJail(true);
+        player.move(player, 10); // Move to jail space
     }
 
     /**

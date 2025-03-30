@@ -1,20 +1,16 @@
-//package tests.Model.Board;
-//
-//import Model.Board.*;
-//import Model.Exceptions.PlayerNotFoundException;
-//import Model.Game;
-//import Model.Property.ColorGroup;
-//import Model.Property.Property;
-//import Model.Property.PropertyColor;
-//import org.junit.Before;
-//import org.junit.Test;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.junit.Assert.*;
-//
-//public class BankerAuctionTest {
+package Model.Board;
+
+import Model.Board.*;
+import Model.Exceptions.PlayerNotFoundException;
+import Model.Game;
+import Model.Property.ColorGroup;
+import Model.Property.Property;
+import Model.Property.PropertyColor;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class AuctionTest {
 
 //    private Banker banker;
 //    private Game game;
@@ -58,10 +54,7 @@
 //        players.add(humanPlayer);
 //        players.add(computerPlayer);
 //    }
-//
-//    /**
-//     * Test that the auction returns a winner
-//     */
+
 //    @Test
 //    public void testAuctionHasWinner() {
 //        Player winner = banker.auctionProperty(testProperty, players);
@@ -70,10 +63,7 @@
 //        assertNotNull("Auction should have a winner", winner);
 //        assertEquals("Property owner should be set to winner", winner, testProperty.getOwner());
 //    }
-//
-//    /**
-//     * Test that the auction deducts money from the winner
-//     */
+
 //    @Test
 //    public void testAuctionDeductsMoney() {
 //        try {
@@ -100,9 +90,7 @@
 //        }
 //    }
 //
-//    /**
-//     * Test auction with no bidders
-//     */
+//
 //    @Test
 //    public void testAuctionWithNoBidders() {
 //        List<Player> emptyList = new ArrayList<>();
@@ -112,10 +100,8 @@
 //        assertNull("Auction should have no winner with empty bidders list", winner);
 //        assertNull("Property should remain unowned", testProperty.getOwner());
 //    }
-//
-//    /**
-//     * Test auction with null property
-//     */
+
+
 //    @Test
 //    public void testAuctionWithNullProperty() {
 //        Player winner = banker.auctionProperty(null, players);
@@ -123,10 +109,7 @@
 //        // Assertions
 //        assertNull("Auction should have no winner with null property", winner);
 //    }
-//
-//    /**
-//     * Test property onLanding with auction
-//     */
+
 //    @Test
 //    public void testPropertyOnLandingWithAuction() {
 //        try {
@@ -144,4 +127,4 @@
 //            fail("Player not found: " + e.getMessage());
 //        }
 //    }
-//}
+}

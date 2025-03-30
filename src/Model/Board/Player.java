@@ -9,21 +9,24 @@ package Model.Board;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Model.Exceptions.PlayerNotFoundException;
 import Model.Property.Property;
 
 
 public abstract class Player {
+
     private final String name;
     private final GameBoard board;
     private boolean inJail;
     private int jailTurns;
     private Token token;
     private int getOutOfJailFreeCards = 0;
+    private int position;
 
 
     /**
      * Constructor for Player.
-     *
      * @param name  Player's name
      * @param board The game board
      * Team member(s) responsible: Matt
@@ -33,15 +36,39 @@ public abstract class Player {
         this.board = board;
         this.inJail = false;
         this.jailTurns = 0;
+        this.position = 0;
     }
 
+    /***
+     * Move the player on the board.
+     * This method is abstract and should be implemented by subclasses.
+     * Team member(s) responsible: Jamell
+     */
+    public void move(Player player,int spaces) throws PlayerNotFoundException {
+        if (player == null) {
+            throw new PlayerNotFoundException();
+        }
+        position = (position + spaces) % 40;
+        System.out.println(name + " moved from " + "to " + position);
+        board.getBoardElements()[position].onLanding(player);
+    }
+
+    /**
+     * Get the player's position on the board.
+     *
+     * @return Player's position
+     * Team member(s) responsible: Jamell
+     */
+    public int getPosition() {
+        return position;
+    }
 
     /**
      * set player's token.
      * Team member(s) responsible: Jamell
      */
-    public void setTokenToPlayer(Token type ) {
-        this.token = type;
+    public void setTokenToPlayer(Token token) {
+        this.token = token;
         token.setOwner(this);
     }
 
