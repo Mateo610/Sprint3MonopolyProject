@@ -94,25 +94,25 @@ public class Property extends BoardSpace {
      */
     @Override
 public void onLanding(Player player) throws PlayerNotFoundException {
-    if (owner == null) {
-        boolean wantsToBuy = askPlayerToBuy(player);
-        
-        if (wantsToBuy && banker.getBalance(player) >= getPurchasePrice()) {
-            // Player wants to buy and can afford it
-            banker.sellProperty(this, player);
-            System.out.println(player.getName() + " bought " + getName() + " for $" + getPurchasePrice());
-        } else {
-            // Player declined or can't afford - auction the property
-            System.out.println(player.getName() + " declined to buy " + getName() + ". Property goes to auction.");
-            
-            // Get all players for the auction
-            List<Player> allPlayers = player.getBoard().getGame().getPlayers();
-            banker.auctionProperty(this, allPlayers);
-        }
-    } else if (owner != player && !isMortgaged) {
-        // If property is owned by another player and not mortgaged, pay rent
-        banker.collectRent(this, player);
-    }
+//    if (owner == null) {
+//        boolean wantsToBuy = askPlayerToBuy(player);
+//
+//        if (wantsToBuy && banker.getBalance(player) >= getPurchasePrice()) {
+//            // Player wants to buy and can afford it
+//            banker.sellProperty(this, player);
+//            System.out.println(player.getName() + " bought " + getName() + " for $" + getPurchasePrice());
+//        } else {
+//            // Player declined or can't afford - auction the property
+//            System.out.println(player.getName() + " declined to buy " + getName() + ". Property goes to auction.");
+//
+//            // Get all players for the auction
+//            List<Player> allPlayers = player.getBoard().getGame().getPlayers();
+//            banker.auctionProperty(this, allPlayers);
+//        }
+//    } else if (owner != player && !isMortgaged) {
+//        // If property is owned by another player and not mortgaged, pay rent
+//        banker.collectRent(this, player);
+//    }
 }
 
     /**
@@ -123,31 +123,31 @@ public void onLanding(Player player) throws PlayerNotFoundException {
      * @return true if the player wants to buy, false otherwise
      * Team member(s) responsible: Matt
      */
-    private boolean askPlayerToBuy(Player player) {
-        try {
-            // Computer players always buy if they can afford it
-            if (player instanceof ComputerPlayer) {
-                return banker.getBalance(player) >= getPurchasePrice();
-            }
-            
-            // For human players in testing, automatically buy if they have twice the property value
-            // In the future, this would show a dialog/UI
-            int balance = banker.getBalance(player);
-            boolean canEasilyAfford = balance >= (getPurchasePrice() * 2);
-            
-            System.out.println(player.getName() + " has landed on " + getName() + " (Price: $" + getPurchasePrice() + 
-                            ", Balance: $" + balance + ")");
-            System.out.println(canEasilyAfford ? 
-                            "Automatically buying property." : 
-                            "Not enough funds to easily afford. Declining purchase.");
-            
-            return canEasilyAfford;
-            
-        } catch (PlayerNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
-            return false;
-        }
-    }
+//    private boolean askPlayerToBuy(Player player) {
+//        try {
+//            // Computer players always buy if they can afford it
+//            if (player instanceof ComputerPlayer) {
+//                return banker.getBalance(player) >= getPurchasePrice();
+//            }
+//
+//            // For human players in testing, automatically buy if they have twice the property value
+//            // In the future, this would show a dialog/UI
+//            int balance = banker.getBalance(player);
+//            boolean canEasilyAfford = balance >= (getPurchasePrice() * 2);
+//
+//            System.out.println(player.getName() + " has landed on " + getName() + " (Price: $" + getPurchasePrice() +
+//                            ", Balance: $" + balance + ")");
+//            System.out.println(canEasilyAfford ?
+//                            "Automatically buying property." :
+//                            "Not enough funds to easily afford. Declining purchase.");
+//
+//            return canEasilyAfford;
+//
+//        } catch (PlayerNotFoundException e) {
+//            System.out.println("Error: " + e.getMessage());
+//            return false;
+//        }
+//    }
     /**
      * Offers the property for purchase to the given player
      * @param player The player who has the option to buy

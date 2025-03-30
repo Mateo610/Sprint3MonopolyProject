@@ -34,7 +34,7 @@ public class Game {
         this.board = new GameBoard(banker);
         this.players = new ArrayList<>();
         this.inProgress = false;
-        this.board = new GameBoard(banker, this);
+        this.board = new GameBoard(banker); //this
     }
     public GameBoard getBoard() {
         return board;
