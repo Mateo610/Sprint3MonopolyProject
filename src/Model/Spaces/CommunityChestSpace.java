@@ -10,8 +10,8 @@
 
 package Model.Spaces;
 
-import Model.Cards.CommunityChestCard;
 import Model.Board.Player;
+import Model.Cards.CommunityChestCard;
 
 public class CommunityChestSpace extends BoardSpace {
     private CommunityChestCard communityChestDeck;

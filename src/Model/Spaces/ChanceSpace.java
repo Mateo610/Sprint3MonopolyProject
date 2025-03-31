@@ -7,8 +7,8 @@
  * */
 
 package Model.Spaces;
-import Model.Cards.ChanceCard;
 import Model.Board.Player;
+import Model.Cards.ChanceCard;
 
 public class ChanceSpace extends BoardSpace {
 

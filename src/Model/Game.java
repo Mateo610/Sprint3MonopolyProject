@@ -14,7 +14,6 @@ import Model.Board.Player;
 import Model.Cards.ChanceCard;
 import Model.Cards.CommunityChestCard;
 import Model.Exceptions.*;
-import Model.Exceptions.IllegalStateException;
 
 import java.util.ArrayList;
 

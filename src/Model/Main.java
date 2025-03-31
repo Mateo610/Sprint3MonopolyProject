@@ -7,16 +7,10 @@
 
 package Model;
 import Model.Board.*;
-import Model.Cards.ChanceCard;
-import Model.Cards.CommunityChestCard;
 import Model.Exceptions.PlayerNotFoundException;
 import Model.Property.ColorGroup;
 import Model.Property.Property;
 import Model.Property.PropertyColor;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws PlayerNotFoundException {

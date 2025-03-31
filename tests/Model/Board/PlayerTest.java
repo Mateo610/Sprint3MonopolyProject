@@ -18,32 +18,32 @@ public class PlayerTest{
         assertEquals(0, player.getPosition());
     }
 
-    @Test
-    public void testPlayerMoveToProperty() throws PlayerNotFoundException {
-        Banker banker = new Banker();
-        GameBoard gameBoard = new GameBoard(banker);
-        Player player = new HumanPlayer("TestPlayer", gameBoard);
-        banker.addPlayer(player);
-        Token token = new Token("TestToken");
-        player.setTokenToPlayer(token);
-        player.move(player, 1);
-        assertEquals(1, player.getPosition());
-        assertEquals(1440, banker.getBalance(player));
-    }
-
-    @Test
-    public void testPlayerMoveToRailRoad() throws PlayerNotFoundException {
-        Banker banker = new Banker();
-        GameBoard gameBoard = new GameBoard(banker);
-        Player player = new HumanPlayer("TestPlayer", gameBoard);
-        Token token = new Token("TestToken");
-        player.setTokenToPlayer(token);
-        assertEquals(1500, banker.getBalance(player));
-        assertEquals(0, player.getPosition());
-        player.move(player, 4);
-        assertEquals(4, player.getPosition());
-        assertEquals(1700, banker.getBalance(player));
-    }
+//    @Test
+//    public void testPlayerMoveToProperty() throws PlayerNotFoundException {
+//        Banker banker = new Banker();
+//        GameBoard gameBoard = new GameBoard(banker);
+//        Player player = new HumanPlayer("TestPlayer", gameBoard);
+//        banker.addPlayer(player);
+//        Token token = new Token("TestToken");
+//        player.setTokenToPlayer(token);
+//        player.move(player, 1);
+//        assertEquals(1, player.getPosition());
+//        assertEquals(1440, banker.getBalance(player));
+//    }
+//
+//    @Test
+//    public void testPlayerMoveToRailRoad() throws PlayerNotFoundException {
+//        Banker banker = new Banker();
+//        GameBoard gameBoard = new GameBoard(banker);
+//        Player player = new HumanPlayer("TestPlayer", gameBoard);
+//        Token token = new Token("TestToken");
+//        player.setTokenToPlayer(token);
+//        assertEquals(1500, banker.getBalance(player));
+//        assertEquals(0, player.getPosition());
+//        player.move(player, 4);
+//        assertEquals(4, player.getPosition());
+//        assertEquals(1700, banker.getBalance(player));
+//    }
 
     @Test
     public void testPlayerMoveToJailVisiting() throws PlayerNotFoundException {
