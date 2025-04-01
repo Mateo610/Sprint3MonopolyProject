@@ -117,7 +117,7 @@ public class Game {
         if (players.isEmpty()) {
             throw new PlayerNotFoundException();
         }
-        Player winner = players.getFirst();
+        Player winner = players.get(0);
         for (Player player : players) {
             if(banker.getBalance(winner) < banker.getBalance(player)){
                 winner = player;

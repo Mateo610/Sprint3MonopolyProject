@@ -71,7 +71,7 @@ public class ChanceCard extends Card {
      */
     public String drawCard() {
         if (!chanceCardsDeck.isEmpty()) {
-            return chanceCardsDeck.removeFirst();
+            return chanceCardsDeck.remove(0);
         }
         return "No more cards in the deck.";
     }

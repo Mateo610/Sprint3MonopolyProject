@@ -74,7 +74,7 @@ public class CommunityChestCard extends Card {
      */
     public String drawCard() {
         if (!communityChanceDeck.isEmpty()) {
-            return communityChanceDeck.removeFirst();
+            return communityChanceDeck.remove(0);
         }
         return "No more cards in the deck.";
     }
