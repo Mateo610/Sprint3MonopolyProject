@@ -27,13 +27,13 @@ public class Game {
 
 
     public Game() {
-        this.banker = new Banker();
+        this.banker = Banker.getInstance();
         this.chanceCard = new ChanceCard();
         this.communityChestCard = new CommunityChestCard();
-        this.board = new GameBoard(banker);
+        this.board = new GameBoard();
         this.players = new ArrayList<>();
         this.inProgress = false;
-        this.board = new GameBoard(banker); //this
+        this.board = new GameBoard();
     }
     public GameBoard getBoard() {
         return board;

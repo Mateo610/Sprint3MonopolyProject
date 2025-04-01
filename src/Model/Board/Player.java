@@ -24,7 +24,6 @@ public abstract class Player {
     private int getOutOfJailFreeCards = 0;
     private int position;
 
-
     /**
      * Constructor for Player.
      * @param name  Player's name

@@ -17,8 +17,8 @@ public class Main {
 
         System.out.println("");
         System.out.println("**Sprint 2 Demo Banker Balance Demo**");
-        Banker banker = new Banker();
-        GameBoard gameBoard = new GameBoard(banker);
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = new GameBoard();
         Player player1 = new HumanPlayer("Alice", gameBoard);
         Player player5 = new HumanPlayer("Bob", gameBoard);
         banker.addPlayer(player1);
@@ -35,8 +35,8 @@ public class Main {
 
         System.out.println("");
         System.out.println("**Property Ownership Demo Sprint 2**");
-        Banker banker2 = new Banker();
-        GameBoard gameBoard2 = new GameBoard(banker2);
+        Banker banker2 = Banker.getInstance();
+        GameBoard gameBoard2 = new GameBoard();
         Player player2 = new HumanPlayer("Bob", gameBoard2);
         ColorGroup colorGroup2 = new ColorGroup(PropertyColor.DARK_BLUE, 2);
         Property property2 = new Property("Park Place", 37, 350,
@@ -63,8 +63,8 @@ public class Main {
 
         System.out.println("");
         System.out.println("**Game Demo Sprint 2**");
-        Banker banker3 = new Banker();
-        GameBoard gameBoard3 = new GameBoard(banker3);
+        Banker banker3 = Banker.getInstance();
+        GameBoard gameBoard3 = new GameBoard();
         Player player3 = new HumanPlayer("Charlie", gameBoard3);
         Token token = new Token("Dog");
         player3.setTokenToPlayer(token);

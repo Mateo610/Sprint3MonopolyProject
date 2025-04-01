@@ -17,8 +17,7 @@ public class TurnManagerTest {
 
     @BeforeEach
     public void setUp() {
-        Banker banker = new Banker();
-        gameBoard = new GameBoard(banker);
+        gameBoard = new GameBoard();
         player1 = new HumanPlayer("Player1", gameBoard);
         player2 = new HumanPlayer("Player2", gameBoard);
         player3 = new HumanPlayer("Player3", gameBoard);

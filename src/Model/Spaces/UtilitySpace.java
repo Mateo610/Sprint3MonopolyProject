@@ -30,6 +30,7 @@ public class UtilitySpace extends BoardSpace {
     public UtilitySpace(String name, int position) {
         super(name, position);
         this.owner = null;
+        this.banker = Banker.getInstance();
     }
 
     /**

@@ -29,17 +29,28 @@ public class Banker {
     private HashMap<Player, ArrayList<BoardSpace>> titleDeeds;
     private HashMap<Player, Integer> playerBalances;
     private ArrayList<BoardSpace> availableProperties;
+    private static Banker instance;
 
-
-    public Banker() {
+    private Banker() {
         this.playerBalances = new HashMap<>();
         this.availableProperties = new ArrayList<>();
         this.availableHouses = MAX_HOUSES;
         this.availableHotels = MAX_HOTELS;
         this.titleDeeds = new HashMap<>();
-        initializeProperties();
+        //initializeProperties();
     }
 
+    /**
+     * Get the Banker instance
+     * @return Banker instance
+     * Team member(s) responsible: Jamell
+     */
+    public static Banker getInstance() {
+        if (instance == null) {
+            instance = new Banker();
+        }
+        return instance;
+    }
 
     /**
      * Get the list of available properties
@@ -549,7 +560,7 @@ public class Banker {
      * @return List of available properties
      * Team member(s) responsible: Jamell
      */
-    private void initializeProperties() {
+    public void initializeProperties() {
         // Initialize color groups
         ColorGroup brownGroup = new ColorGroup(PropertyColor.BROWN, 2);
         ColorGroup lightBlueGroup = new ColorGroup(PropertyColor.LIGHT_BLUE, 3);
@@ -589,5 +600,13 @@ public class Banker {
         availableProperties.add(new Property("Pennsylvania Avenue", 34, 320, 28, new int[]{150, 450, 1000, 1200}, 1400, 160, PropertyColor.GREEN, greenGroup));
         availableProperties.add(new Property("Park Place", 37, 350, 35, new int[]{175, 500, 1100, 1300}, 1500, 175, PropertyColor.DARK_BLUE, blueGroup));
         availableProperties.add(new Property("Boardwalk", 39, 400, 50, new int[]{200, 600, 1400, 1700}, 2000, 200, PropertyColor.DARK_BLUE, blueGroup));
+    }
+
+    /**
+     * Reset the banker
+     * Team member(s) responsible: Jamell
+     */
+    public static void reset() {
+        instance = null;
     }
 }

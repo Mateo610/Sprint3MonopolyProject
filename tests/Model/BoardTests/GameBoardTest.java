@@ -5,12 +5,13 @@ import Model.Board.GameBoard;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameBoardTest {
+public class GameBoardTest {
 
     @Test
     public void testBoardInitialization() {
-        Banker banker = new Banker();
-        GameBoard gameBoard = new GameBoard(banker);
+        Banker.reset();
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = new GameBoard();
         assertNotNull(gameBoard);
         assertEquals(40, gameBoard.getBoardElements().length, "The board should have exactly 40 spaces.");
         assertEquals("Go", gameBoard.getBoardElements()[0].getName());

@@ -18,11 +18,11 @@ public class PropertyTest {
     private Player otherPlayer;
     private Banker banker;
 
-
     @BeforeEach
     public void setUp() throws PlayerNotFoundException {
-        Banker banker = new Banker();
-        GameBoard board = new GameBoard(banker);
+        Banker.reset();
+        Banker banker = Banker.getInstance();
+        GameBoard board = new GameBoard();
         owner = new HumanPlayer("TestOwner", board);
         otherPlayer = new HumanPlayer("TestPlayer", board);
         banker.addPlayer(owner);

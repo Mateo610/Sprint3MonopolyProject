@@ -6,11 +6,19 @@ import Model.Game;
 import Model.Property.ColorGroup;
 import Model.Property.Property;
 import Model.Property.PropertyColor;
+import org.junit.jupiter.api.BeforeEach;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class AuctionTest {
+
+    @BeforeEach
+    public void setUp() {
+        Banker.reset();
+    }
+
 
 //    private Banker banker;
 //    private Game game;

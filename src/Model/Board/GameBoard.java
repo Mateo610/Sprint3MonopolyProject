@@ -31,18 +31,18 @@ public class GameBoard {
     private ColorGroup blueGroup;
     private ChanceCard chanceCard;
     private CommunityChestCard communityChestCard;
-    protected Banker banker;
+    private Banker banker;
 
     /**
      * Initializes the game board with all the spaces.
-     * Team member(s) responsible: Deborah
-     */
-    public GameBoard(Banker banker) {
+     * Team member(s) responsible: Deborah, Jamell
+     **/
+    public GameBoard() {
         this.boardElements = new BoardSpace[NUM_SPACES];
         this.dice = new Dice();
         initializeColorGroups();
         initializeBoard(chanceCard, communityChestCard);
-        this.banker = banker;
+        this.banker = Banker.getInstance();
     }
 
     /**
@@ -123,17 +123,17 @@ public class GameBoard {
      * Team member(s) responsible: Deborah, Jamell
      */
     private void initializeBoard(ChanceCard chanceCard, CommunityChestCard communityChestCard) {
-        boardElements[0] = new GoSpace(this.banker);
+        boardElements[0] = new GoSpace();
         boardElements[1] = new Property("Mediterranean Avenue", 1, 60, 2, new int[]{10, 30, 90, 160}, 250, 30, PropertyColor.BROWN, brownGroup);
         boardElements[2] = new CommunityChestSpace(2, communityChestCard);
         boardElements[3] = new Property("Baltic Avenue", 3, 60, 4, new int[]{20, 60, 180, 320}, 450, 30, PropertyColor.BROWN, brownGroup);
-        boardElements[4] = new TaxSpace("Income Tax", 4, this.banker);
+        boardElements[4] = new TaxSpace("Income Tax", 4);
         boardElements[5] = new Railroad("Reading Railroad", 5);
         boardElements[6] = new Property("Oriental Avenue", 6, 100, 6, new int[]{30, 90, 270, 400}, 550, 50, PropertyColor.LIGHT_BLUE, lightBlueGroup);
         boardElements[7] = new ChanceSpace(7, chanceCard);
         boardElements[8] = new Property("Vermont Avenue", 8, 100, 6, new int[]{30, 90, 270, 400}, 550, 50, PropertyColor.LIGHT_BLUE, lightBlueGroup);
         boardElements[9] = new Property("Connecticut Avenue", 9, 120, 8, new int[]{40, 100, 300, 450}, 600, 60, PropertyColor.LIGHT_BLUE, lightBlueGroup);
-        boardElements[10] = new JailAndJustVisitingAndFreeParking("Jail / Just Visiting", 10, this.banker);
+        boardElements[10] = new JailAndJustVisitingAndFreeParking("Jail / Just Visiting", 10);
         boardElements[11] = new Property("St. Charles Place", 11, 140, 10, new int[]{50, 150, 450, 625}, 750, 70, PropertyColor.PINK, pinkGroup);
         boardElements[12] = new UtilitySpace("Electric Company", 12);
         boardElements[13] = new Property("States Avenue", 13, 140, 10, new int[]{50, 150, 450, 625}, 750, 70, PropertyColor.PINK, pinkGroup);
@@ -143,7 +143,7 @@ public class GameBoard {
         boardElements[17] = new CommunityChestSpace(17, communityChestCard);
         boardElements[18] = new Property("Tennessee Avenue", 18, 180, 14, new int[]{70, 200, 550, 750}, 950, 90, PropertyColor.ORANGE, orangeGroup);
         boardElements[19] = new Property("New York Avenue", 19, 200, 16, new int[]{80, 220, 600, 800}, 1000, 100, PropertyColor.ORANGE, orangeGroup);
-        boardElements[20] = new JailAndJustVisitingAndFreeParking("Free Parking", 20, this.banker);
+        boardElements[20] = new JailAndJustVisitingAndFreeParking("Free Parking", 20);
         boardElements[21] = new Property("Kentucky Avenue", 21, 220, 18, new int[]{90, 250, 700, 875}, 1050, 110, PropertyColor.RED, redGroup);
         boardElements[22] = new ChanceSpace(22, chanceCard);
         boardElements[23] = new Property("Indiana Avenue", 23, 220, 18, new int[]{90, 250, 700, 875}, 1050, 110, PropertyColor.RED, redGroup);
@@ -161,7 +161,7 @@ public class GameBoard {
         boardElements[35] = new Railroad("Short Line", 35);
         boardElements[36] = new ChanceSpace(36, chanceCard);
         boardElements[37] = new Property("Park Place", 37, 350, 35, new int[]{175, 500, 1100, 1300}, 1500, 175, PropertyColor.DARK_BLUE, blueGroup);
-        boardElements[38] = new TaxSpace("Luxury Tax", 38, this.banker);
+        boardElements[38] = new TaxSpace("Luxury Tax", 38);
         boardElements[39] = new Property("Boardwalk", 39, 400, 50, new int[]{200, 600, 1400, 1700}, 2000, 200, PropertyColor.DARK_BLUE, blueGroup);
     }
 

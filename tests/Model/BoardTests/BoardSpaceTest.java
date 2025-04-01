@@ -59,8 +59,9 @@ public class BoardSpaceTest {
     }
     @BeforeEach
     public void setUp() {
-        Banker banker = new Banker();
-        board = new GameBoard(banker);
+        Banker.reset();
+        Banker.getInstance();
+        board = new GameBoard();
         testSpace = new TestBoardSpace("Test Space", 5);
         testToken = new Token("Car");
     }

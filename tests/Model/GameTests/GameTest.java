@@ -1,15 +1,22 @@
 package Model.GameTests;
 
+import Model.Board.Banker;
 import Model.Board.ComputerPlayer;
 import Model.Board.HumanPlayer;
 import Model.Board.Player;
 import Model.Exceptions.PlayerNotFoundException;
 import Model.Game;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
+
+    @BeforeEach
+    public void setUp() {
+        Banker.reset();
+    }
 
     @Test
     public void startGame() throws PlayerNotFoundException {

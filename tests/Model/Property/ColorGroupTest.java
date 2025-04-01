@@ -1,5 +1,6 @@
 package Model.Property;
 
+import Model.Board.Banker;
 import Model.Board.HumanPlayer;
 import Model.Board.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ public class ColorGroupTest {
 
     @BeforeEach
     public void setUp() {
-
+        Banker.reset();
         colorGroup = new ColorGroup(PropertyColor.DARK_BLUE, 2);
         owner = new HumanPlayer("TestOwner", null);
 

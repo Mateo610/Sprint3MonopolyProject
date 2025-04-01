@@ -12,8 +12,7 @@ public class TokenTest {
 
     @BeforeEach
     public void setUp() {
-        Banker banker = new Banker();
-        gameBoard = new GameBoard(banker);
+        gameBoard = new GameBoard();
         player = new HumanPlayer("TestPlayer", gameBoard);
         token = new Token("Car");
     }

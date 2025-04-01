@@ -1,6 +1,8 @@
 package Model.Cards;
 
+import Model.Board.Banker;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,6 +10,11 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CommunityChestTest {
+
+    @BeforeEach
+    public void setUp() {
+        Banker.reset();
+    }
 
     @Test
     public void TestCommunityChestDatabaseCardType() {

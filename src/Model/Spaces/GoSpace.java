@@ -13,15 +13,15 @@ import Model.Exceptions.PlayerNotFoundException;
 import Model.Board.Player;
 
 public class GoSpace extends BoardSpace {
-    protected Banker banker;
+    private Banker banker;
 
     /**
      * Constructor for GoSpace
      * Team member(s) responsible: Deborah
      */
-    public GoSpace(Banker banker) {
+    public GoSpace() {
         super("Go", 0);
-        this.banker = banker;
+        this.banker = Banker.getInstance();
     }
 
     /**

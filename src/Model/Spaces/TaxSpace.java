@@ -20,9 +20,9 @@ public class TaxSpace extends BoardSpace {
     private static final double TAX_RATE = 0.1;
     protected Banker banker;
 
-    public TaxSpace(String name, int position, Banker banker) {
+    public TaxSpace(String name, int position) {
         super(name, position);
-        this.banker = banker;
+        this.banker = Banker.getInstance();
     }
 
     /**

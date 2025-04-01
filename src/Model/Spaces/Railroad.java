@@ -28,6 +28,7 @@ public class Railroad extends BoardSpace {
     public Railroad(String name, int position) {
         super(name, position);
         this.owner = null;
+        this.banker = Banker.getInstance();
     }
 
 

@@ -23,9 +23,9 @@ public class JailAndJustVisitingAndFreeParking extends BoardSpace {
      * @param name
      * @param position Team member(s) responsible: Deborah
      */
-    public JailAndJustVisitingAndFreeParking(String name, int position, Banker banker) {
+    public JailAndJustVisitingAndFreeParking(String name, int position) {
         super(name, position);
-        this.banker = banker;
+        this.banker = Banker.getInstance();
     }
 
     /**
