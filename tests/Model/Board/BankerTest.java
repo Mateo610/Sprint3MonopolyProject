@@ -179,7 +179,7 @@ public class BankerTest {
         Player player = new HumanPlayer("TestPlayer", board);
         banker.addPlayer(player);
         assertEquals(28,banker.getAvailableProperties().size());
-        banker.sellProperty(banker.getAvailableProperties().getFirst(), player);
+        banker.sellProperty(banker.getAvailableProperties().get(0), player);
         assertEquals(27, banker.getAvailableProperties().size());
     }
 
