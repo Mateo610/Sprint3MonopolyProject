@@ -12,6 +12,7 @@ package Model.Spaces;
 
 import Model.Board.Player;
 import Model.Cards.CommunityChestCard;
+import Model.Exceptions.PlayerNotFoundException;
 
 public class CommunityChestSpace extends BoardSpace {
     private CommunityChestCard communityChestDeck;
@@ -75,8 +76,9 @@ public class CommunityChestSpace extends BoardSpace {
      *               Team member(s) responsible: Deborah
      */
     @Override
-    public void onLanding(Player player) {
+    public void onLanding(Player player) throws PlayerNotFoundException {
         String cardDrawn = communityChestDeck.drawCard();
+        communityChestDeck.useCard(cardDrawn, player);
         System.out.println(player.getName() + " drew a community chest card: " + cardDrawn);
     }
 

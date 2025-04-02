@@ -75,6 +75,7 @@ public class ChanceSpace extends BoardSpace {
     @Override
     public void onLanding(Player player) {
         String cardDrawn = chanceDeck.drawCard();
+        //chanceDeck.useCard(cardDrawn,player);
         System.out.println(player.getName() + " drew a chance card: " + cardDrawn);
     }
 

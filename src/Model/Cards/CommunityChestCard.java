@@ -8,16 +8,22 @@
 
 package Model.Cards;
 
+import Model.Board.Banker;
+import Model.Board.Player;
+import Model.Exceptions.PlayerNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class CommunityChestCard extends Card {
 
     private ArrayList<String> communityChanceDeck;
+    private Banker banker;
 
     public CommunityChestCard() {
         super("Community Chest Card");
         communityChanceDeck = new ArrayList<>();
+        banker = Banker.getInstance();
         preloadCards();
     }
 
@@ -100,7 +106,83 @@ public class CommunityChestCard extends Card {
      * This method is used to use a card. It is not implemented yet.
      * Team member(s) responsible: Jamell
      */
-    public void useCard(String message){
-        // for use cards that have a specific action
+    public void useCard(String message, Player player) throws PlayerNotFoundException {
+//        switch (message) {
+//            case "Advance to Go (Collect $200)":
+//                player.move(GO_POSITION);
+//                banker.deposit(player, 200);
+//                break;
+//
+//            case "Bank error in your favor. Collect $200":
+//                banker.deposit(player, 200);
+//                break;
+//
+//            case "Doctor's fee. Pay $50":
+//                banker.withdraw(player, 50);
+//                break;
+//
+//            case "From sale of stock you get $50":
+//                banker.deposit(player, 50);
+//                break;
+//
+//            case "Get Out of Jail Free":
+//                player.addGetOutOfJailFreeCard();
+//                break;
+//
+//            case "Go to Jail. Go directly to jail, do not pass Go, do not collect $200":
+//                player.goToJail();
+//                player.setInJail(true);
+//                break;
+//
+//            case "Holiday fund matures. Receive $100":
+//                banker.deposit(player, 100);
+//                break;
+//
+//            case "Income tax refund. Collect $20":
+//                banker.deposit(player, 20);
+//                break;
+//
+//            case "It is your birthday. Collect $10 from every player":
+//                List<Player> otherPlayers = game.getOtherPlayers(player);
+//                for (Player otherPlayer : otherPlayers) {
+//                    banker.transferMoney(otherPlayer, player, 10);
+//                }
+//                break;
+//
+//            case "Life insurance matures. Collect $100":
+//                banker.withdraw(player, 100);
+//                break;
+//
+//            case "Pay hospital fees of $100":
+//                banker.withdraw(player, 100);
+//                break;
+//
+//            case "Pay school fees of $50":
+//                banker.deposit(player, 50);
+//                break;
+//
+//            case "Receive $25 consultancy fee":
+//                banker.deposit(player, 25);
+//                break;
+//
+//            case "You are assessed for street repair. $40 per house. $115 per hotel":
+//                int houses = banker.getPlayerProperties(player).getHouseCount();
+//                int hotels = banker.getPlayerProperties(player).getHotelCount();
+//                int repairCost = (houses * 40) + (hotels * 115);
+//                banker.withdraw(player, repairCost);
+//                break;
+//
+//            case "You have won second prize in a beauty contest. Collect $10":
+//                banker.deposit(player, 10);
+//                break;
+//
+//            case "You inherit $100":
+//                banker.deposit(player, 100);
+//                break;
+//
+//            default:
+//                System.out.println("Unknown Community Chest card: " + message);
+//                break;
+//        }
     }
 }
