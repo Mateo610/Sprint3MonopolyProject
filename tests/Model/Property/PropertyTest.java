@@ -57,4 +57,33 @@ public class PropertyTest {
         property.setOwner(owner);
         assertEquals(50, property.calculateRent(owner));
     }
+
+//    @Test
+//    public void testHouseAdd() throws PlayerNotFoundException {
+//        property.setOwner(owner);
+//        property.addHouse();
+//        assertEquals(1, property.getNumHouses());
+//        assertEquals(200, property.calculateRent(owner));
+//    }
+//
+//    @Test
+//    public void testHouseAddMax() throws PlayerNotFoundException {
+//        property.setOwner(owner);
+//        for (int i = 0; i < 5; i++) {
+//            property.addHouse();
+//        }
+//        assertEquals(5, property.getNumHouses());
+//        assertEquals(200, property.calculateRent(owner));
+//    }
+//
+//    @Test
+//    public void testHotelAdd() throws PlayerNotFoundException {
+//        property.setOwner(owner);
+//        for (int i = 0; i < 5; i++) {
+//            property.addHouse();
+//        }
+//        property.addHotel();
+//        assertTrue(property.hasHotel());
+//        assertEquals(2000, property.calculateRent(owner));
+//    }
 }

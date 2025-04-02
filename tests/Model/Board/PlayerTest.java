@@ -48,9 +48,9 @@ public class PlayerTest{
         banker.addPlayer(player);
         assertEquals(1500, banker.getBalance(player));
         assertEquals(0, player.getPosition());
-        player.move(player, 4);
-        assertEquals(4, player.getPosition());
-        assertEquals(1700, banker.getBalance(player));
+        player.move(player, 5);
+        assertEquals(5, player.getPosition());
+        assertEquals(1300, banker.getBalance(player));
     }
 
     @Test
@@ -60,14 +60,70 @@ public class PlayerTest{
         Player player = new HumanPlayer("TestPlayer", gameBoard);
         Token token = new Token("TestToken");
         player.setTokenToPlayer(token);
+        banker.addPlayer(player);
         player.move(player,1);
         assertEquals(1,player.getPosition());
-        banker.addPlayer(player);
-        assertEquals(1500,banker.getBalance(player));
+        assertEquals(1440,banker.getBalance(player));
         player.move(player,9);
         assertEquals(10,player.getPosition());
         assertEquals("Jail / Just Visiting", gameBoard.getBoardElements()[10].getName());
     }
 
 
+    //luxury tax
+    @Test
+    public void testPlayerMoveToTaxSpace() throws PlayerNotFoundException {
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = new GameBoard();
+        Player player = new HumanPlayer("TestPlayer", gameBoard);
+        Token token = new Token("TestToken");
+        player.setTokenToPlayer(token);
+        banker.addPlayer(player);
+        player.move(player, 38);
+        assertEquals(38, player.getPosition());
+        assertEquals(1425, banker.getBalance(player));
+    }
+
+    //income tax
+//    @Test
+//    public void testPlayerMoveToIncomeTaxSpace() throws PlayerNotFoundException {
+//        Banker banker = Banker.getInstance();
+//        GameBoard gameBoard = new GameBoard();
+//        Player player = new HumanPlayer("TestPlayer", gameBoard);
+//        Token token = new Token("TestToken");
+//        player.setTokenToPlayer(token);
+//        banker.addPlayer(player);
+//        player.move(player, 4);
+//        assertEquals(4, player.getPosition());
+//        assertEquals(1400, banker.getBalance(player));
+//    }
+
+    //chance cards
+//    @Test
+//    public void testPlayerChanceCards() throws PlayerNotFoundException {
+//        Banker banker = Banker.getInstance();
+//        GameBoard gameBoard = new GameBoard();
+//        Player player = new HumanPlayer("TestPlayer", gameBoard);
+//        Token token = new Token("TestToken");
+//        player.setTokenToPlayer(token);
+//        banker.addPlayer(player);
+//        player.move(player, 7);
+//        assertEquals(7, player.getPosition());
+//        gameBoard.getCommunityChestCard().drawCard();
+//    }
+
+
+    //community chest cards
+//    @Test
+//    public void testPlayerCommunityChestCards() throws PlayerNotFoundException {
+//        Banker banker = Banker.getInstance();
+//        GameBoard gameBoard = new GameBoard();
+//        Player player = new HumanPlayer("TestPlayer", gameBoard);
+//        Token token = new Token("TestToken");
+//        player.setTokenToPlayer(token);
+//        banker.addPlayer(player);
+//        player.move(player, 2);
+//        assertEquals(2, player.getPosition());
+//        gameBoard.getCommunityChestCard().drawCard();
+//    }
 }
