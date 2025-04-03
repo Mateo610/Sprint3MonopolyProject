@@ -42,7 +42,7 @@ public class Main {
         Property property2 = new Property("Park Place", 37, 350,
                 35, new int[]{175, 500, 1100, 1300}, 1500,
                 200, PropertyColor.DARK_BLUE, colorGroup2);
-        banker.addTitleDeed(player2, property2);
+        banker2.addTitleDeed(player2, property2);
         System.out.println("Player 2 owns: " + banker.getPlayerProperties(player2));
 
         System.out.println("");
@@ -66,6 +66,7 @@ public class Main {
         Banker banker3 = Banker.getInstance();
         GameBoard gameBoard3 = new GameBoard();
         Player player3 = new HumanPlayer("Charlie", gameBoard3);
+        banker3.addPlayer(player3);
         Token token = new Token("Dog");
         player3.setTokenToPlayer(token);
         player3.move(player3,5);
