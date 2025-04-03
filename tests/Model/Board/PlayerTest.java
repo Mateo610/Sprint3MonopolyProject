@@ -84,6 +84,13 @@ public class PlayerTest{
         assertEquals(1425, banker.getBalance(player));
     }
 
+    @Test
+    public void testComputerPlayerName(){
+        GameBoard gameBoard = new GameBoard();
+        Player player = new ComputerPlayer("TestPlayer", gameBoard);
+        assertEquals("Cpu", player.getName());
+    }
+
     //income tax
 //    @Test
 //    public void testPlayerMoveToIncomeTaxSpace() throws PlayerNotFoundException {

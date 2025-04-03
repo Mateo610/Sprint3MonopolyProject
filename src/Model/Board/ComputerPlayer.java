@@ -7,6 +7,8 @@
  * */
 package Model.Board;
 
+import Model.Exceptions.PlayerNotFoundException;
+
 /**
  * Represents a computer-controlled player in a Monopoly game.
  * Inherits from the abstract Player class.
@@ -26,5 +28,26 @@ public class ComputerPlayer extends Player {
     }
 
 
+    /***
+     * Move the player on the board.
+     * This method is abstract and should be implemented by subclasses.
+     * Team member(s) responsible: Jamell
+     */
+    @Override
+    public void move(Player player, int spaces) throws PlayerNotFoundException {
+        if (player == null) {
+            throw new PlayerNotFoundException();
+        }
+        int newPosition = (getPosition() + spaces) % 40;
+        setPosition(newPosition);
+        System.out.println(getName() + " moved " + newPosition + " spaces");
+        getBoard().getBoardElements()[newPosition].onLanding(player);
+    }
+
+    //monopoly buy logic
+    //buy property if not owned
+    //if owned, check if it is mortgaged
+    //if not mortgaged, check if the player can afford to pay rent
+    //jail logic
 
 }

@@ -132,12 +132,10 @@ public class JailAndJustVisitingAndFreeParking extends BoardSpace {
         if (!player.isInJail()) {
             return false;
         }
-
         if (banker.getBalance(player) < JAIL_FINE) {
             System.out.println(player.getName() + " does not have enough money to pay the fine!");
             return false;
         }
-
         banker.withdraw(player, JAIL_FINE);
         releaseFromJail(player);
         System.out.println(player.getName() + " paid $" + JAIL_FINE + " to get out of jail!");

@@ -44,4 +44,32 @@ class GameTest {
         game.startGame();
         assertTrue(game.gameInProgress());
     }
+
+    @Test
+    public void testGameEnd() throws PlayerNotFoundException {
+        Game game = new Game();
+        Player player = new HumanPlayer("Player 1", game.getBoard());
+        Player computerPlayer = new ComputerPlayer("Player 2", game.getBoard());
+        game.addPlayer(player);
+        game.addPlayer(computerPlayer);
+        game.startGame();
+        assertTrue(game.gameInProgress());
+        game.endGame();
+        assertFalse(game.gameInProgress());
+    }
+
+    @Test
+    public void testWinnerOfAGame() throws PlayerNotFoundException {
+        Game game = new Game();
+        Banker banker = Banker.getInstance();
+        Player player1 = new HumanPlayer("Player 1", game.getBoard());
+        Player player2 = new ComputerPlayer("Player 2", game.getBoard());
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.startGame();
+        banker.withdraw(player1, 1000);
+        assertEquals(500, banker.getBalance(player1));
+        assertEquals("Cpu", game.winner());
+    }
+
 }
