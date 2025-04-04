@@ -159,13 +159,11 @@ public class Game {
         if (!gameInProgress()) {
             throw new GameNotInProgressException();
         }
-        if (players.isEmpty()) {
-            throw new PlayerNotFoundException();
-        }
         try {
             String winner = winner();
             System.out.println("Game over! The winner is: " + winner);
-        } catch (PlayerNotFoundException e) {
+        } catch
+        (PlayerNotFoundException e) {
             System.out.println("No winner could be determined.");
         }
         resetGame();
