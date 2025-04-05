@@ -3,6 +3,7 @@ package Model.Board;
 import static org.junit.jupiter.api.Assertions.*;
 
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Spaces.Railroad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,6 +55,19 @@ public class PlayerTest{
     }
 
     @Test
+    public void testPlayerMoveToUtility() throws PlayerNotFoundException {
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = new GameBoard();
+        Player player = new HumanPlayer("TestPlayer", gameBoard);
+        Token token = new Token("TestToken");
+        player.setTokenToPlayer(token);
+        banker.addPlayer(player);
+        player.move(player, 12);
+        assertEquals(12, player.getPosition());
+        assertEquals(1350, banker.getBalance(player));
+    }
+
+    @Test
     public void testPlayerMoveToJailVisiting() throws PlayerNotFoundException {
         Banker banker = Banker.getInstance();
         GameBoard gameBoard = new GameBoard();
@@ -83,6 +97,14 @@ public class PlayerTest{
         assertEquals(38, player.getPosition());
         assertEquals(1425, banker.getBalance(player));
     }
+
+    @Test
+    public void testComputerPlayerName(){
+        GameBoard gameBoard = new GameBoard();
+        Player player = new ComputerPlayer("TestPlayer", gameBoard);
+        assertEquals("Cpu", player.getName());
+    }
+
 
     //income tax
 //    @Test

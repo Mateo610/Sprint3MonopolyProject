@@ -35,6 +35,10 @@ public class Game {
         this.inProgress = false;
         this.board = new GameBoard();
     }
+    /**
+     * This method is used to get the board object.
+     * Team member(s) responsible: Deborah
+     */
     public GameBoard getBoard() {
         return board;
     }
@@ -64,6 +68,10 @@ public class Game {
         banker.addPlayer(newPlayer);
     }
 
+    /**
+     * This method is used to remove a player from the game.
+     * Team member(s) responsible: Deborah
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }
@@ -110,7 +118,7 @@ public class Game {
      * If the player is not in the game, it throws a PlayerNotFoundException.
      * Team member(s) responsible: Jamell
      */
-    public Player winner() throws PlayerNotFoundException {
+    public String winner() throws PlayerNotFoundException {
         if(!gameInProgress()){
             throw new GameNotInProgressException();
         }
@@ -123,7 +131,7 @@ public class Game {
                 winner = player;
             }
         }
-        return winner;
+        return winner.getName();
     }
 
     /**
@@ -137,6 +145,7 @@ public class Game {
         }
         players.clear();
         inProgress = false;
+        banker.reset();
     }
 
     /**
@@ -144,19 +153,20 @@ public class Game {
      * If the game is ended early, it throws a GameEndedEarlyException.
      * @throws PlayerNotFoundException
      * Team member(s) responsible: Deborah
+     * Modified by jamell on 04-03-2025
      */
     public void endGame() throws PlayerNotFoundException {
-        inProgress = false;
-        if (players.isEmpty()) {
-            throw new GameEndedEarlyException();
+        if (!gameInProgress()) {
+            throw new GameNotInProgressException();
         }
         try {
-            resetGame();
-            System.out.println("Game over! The winner is: " + winner().getName());
-        } catch (PlayerNotFoundException e)
-        {
-            throw new PlayerNotFoundException();
+            String winner = winner();
+            System.out.println("Game over! The winner is: " + winner);
+        } catch
+        (PlayerNotFoundException e) {
+            System.out.println("No winner could be determined.");
         }
+        resetGame();
     }
 
 }

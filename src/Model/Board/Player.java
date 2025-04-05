@@ -1,23 +1,19 @@
 /*
-* CSCI 234: Intro to Software Engineering
-* Group: Giovanny, Jamell, Matt, Deborah
-* Purpose: This class represents a player's on the Monopoly board
-* Team Member(s) responsible: Matt, Jamell
-* */
+ * CSCI 234: Intro to Software Engineering
+ * Group: Giovanny, Jamell, Matt, Deborah
+ * Purpose: This class represents a player's on the Monopoly board
+ * Team Member(s) responsible: Matt, Jamell
+ * */
 
 package Model.Board;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import Model.Exceptions.PlayerNotFoundException;
-import Model.Property.Property;
 
 
 public abstract class Player {
 
-    private final String name;
-    private final GameBoard board;
+    private String name;
+    private GameBoard board;
     private boolean inJail;
     private int jailTurns;
     private Token token;
@@ -26,9 +22,10 @@ public abstract class Player {
 
     /**
      * Constructor for Player.
+     *
      * @param name  Player's name
      * @param board The game board
-     * Team member(s) responsible: Matt
+     *              Team member(s) responsible: Matt
      */
     public Player(String name, GameBoard board) {
         this.name = name;
@@ -43,14 +40,7 @@ public abstract class Player {
      * This method is abstract and should be implemented by subclasses.
      * Team member(s) responsible: Jamell
      */
-    public void move(Player player,int spaces) throws PlayerNotFoundException {
-        if (player == null) {
-            throw new PlayerNotFoundException();
-        }
-        position = (position + spaces) % 40;
-        System.out.println(name + " moved from " + "to " + position);
-        board.getBoardElements()[position].onLanding(player);
-    }
+    public abstract void move(Player player, int spaces) throws PlayerNotFoundException;
 
     /**
      * Get the player's position on the board.
@@ -60,6 +50,16 @@ public abstract class Player {
      */
     public int getPosition() {
         return position;
+    }
+
+    /**
+     * Set the player's position on the board.
+     *
+     * @param position New position
+     * Team member(s) responsible: Jamell
+     */
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     /**
@@ -117,7 +117,7 @@ public abstract class Player {
      * Set player's jail status.
      *
      * @param inJail New jail status
-     * Team member(s) responsible: Matt
+     *               Team member(s) responsible: Matt
      */
     public void setInJail(boolean inJail) {
         this.inJail = inJail;

@@ -375,22 +375,28 @@ public class Property extends BoardSpace {
 
     @Override
     public String toString() {
-        return "Property{" +
-                "name='" + getName() + '\'' +
-                ", position=" + getPosition() +
-                ", purchasePrice=" + purchasePrice +
-                ", baseRent=" + baseRent +
-                ", houseRents=" + houseRents +
-                ", hotelRent=" + hotelRent +
-                ", mortgageValue=" + mortgageValue +
-                ", color=" + color +
-                ", colorGroup=" + colorGroup +
-                ", owner=" + owner +
-                ", isMortgaged=" + isMortgaged +
-                ", numHouses=" + numHouses +
-                ", hasHotel=" + hasHotel +
-                ", housePrice=" + housePrice +
-                '}';
+        return String.format(
+                "Property {\n" +
+                        "  Name: '%s'\n" +
+                        "  Position: %d\n" +
+                        "  Purchase Price: $%d\n" +
+                        "  Base Rent: $%d\n" +
+                        "  House Rents: %s\n" +
+                        "  Hotel Rent: $%d\n" +
+                        "  Mortgage Value: $%d\n" +
+                        "  Color: %s\n" +
+                        "  Color Group: %s\n" +
+                        "  Owner: %s\n" +
+                        "  Mortgaged: %b\n" +
+                        "  Number of Houses: %d\n" +
+                        "  Has Hotel: %b\n" +
+                        "  House Price: $%d\n" +
+                        "}",
+                getName(), getPosition(), purchasePrice, baseRent,
+                houseRents, hotelRent, mortgageValue, color,
+                colorGroup, owner, isMortgaged, numHouses,
+                hasHotel, housePrice
+        );
     }
 
 }

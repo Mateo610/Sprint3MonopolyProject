@@ -76,12 +76,14 @@ public class UtilitySpace extends BoardSpace {
     @Override
     public void onLanding(Player player) throws PlayerNotFoundException {
         if (owner == null)
-        {banker.sellProperty(this, player);
-            banker.withdraw(player,PURCHASE_PRICE);
+        {
             owner = player;
-        } else if
-        (owner != player) {
-            int rent = calculateRent(player);
+            banker.addAvailableProperty(this);
+            banker.sellProperty(this, player);
+        }
+        else if (owner != player)
+        {
+            int rent = calculateRent(owner);
             System.out.println(player.getName() + " landed on " + getName() + " and paid " + owner.getName() + " $" + rent + " in rent");
             banker.withdraw(player, rent);
             banker.deposit(owner,rent);
@@ -96,15 +98,20 @@ public class UtilitySpace extends BoardSpace {
      */
     @Override
     public int calculateRent(Player player) throws PlayerNotFoundException {
-        int numOwnedByOwner = banker.getPlayerProperties(player).size(); //needs to be changed
-        int diceRoll = player.getBoard().getDice().getSum();
-
-        if (numOwnedByOwner == 1) {
-            return RENT_FOR_ONE_OWNED * diceRoll;
-        } else if (numOwnedByOwner == 2) {
-            return RENT_FOR_TWO_OWNED * diceRoll;
-        } else {
+        if (owner == null) {
             return 0;
+        }
+        int diceRoll = player.getBoard().getDice().roll();
+        int numUtilities = 0;
+        for (BoardSpace prop : banker.getPlayerProperties(owner)) {
+            if (prop instanceof UtilitySpace) {
+                numUtilities++;
+            }
+        }
+        if (numUtilities == 2) {
+            return diceRoll * 10;
+        } else {
+            return diceRoll * 4;
         }
     }
 

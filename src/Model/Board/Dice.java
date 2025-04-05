@@ -27,9 +27,10 @@ public class Dice {
      * Rolls the dice
      * Team member(s) responsible: Jamell
      */
-    public void roll() {
+    public int roll() {
         die1 = rollDie();
         die2 = rollDie();
+        return getSum();
     }
 
     /**

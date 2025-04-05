@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ChanceCard extends Card {
-    private Banker banker;
 
+    private Banker banker;
     private ArrayList<String> chanceCardsDeck;
 
     public ChanceCard() {
