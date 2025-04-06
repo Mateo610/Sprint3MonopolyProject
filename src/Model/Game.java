@@ -29,7 +29,7 @@ public class Game {
     public Game() {
         this.banker = Banker.getInstance();
         this.chanceCard = ChanceCard.getInstance();
-        this.communityChestCard = new CommunityChestCard();
+        this.communityChestCard = CommunityChestCard.getInstance();
         this.board = new GameBoard();
         this.players = new ArrayList<>();
         this.inProgress = false;

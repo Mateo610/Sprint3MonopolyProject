@@ -14,8 +14,7 @@ public class ChanceCardTest {
     @BeforeEach
     public void setUp() {
         Banker.reset();
-        ChanceCard chanceCard = ChanceCard.getInstance();
-        chanceCard.reset();
+        ChanceCard.reset();
     }
 
     @Test

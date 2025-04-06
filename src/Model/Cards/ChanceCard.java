@@ -96,6 +96,17 @@ public class ChanceCard extends Card {
     }
 
     /**
+     * This method restores the chance deck to its original state.
+     * Team member(s) responsible: Jamell
+     */
+    public void cardRestore() {
+        chanceCardsDeck = new ArrayList<>();
+        preloadCards();
+        shuffleDeck();
+    }
+
+
+    /**
      * This method shuffles the chance deck.
      * Team member(s) responsible: Jamell
      */
@@ -208,21 +219,12 @@ public class ChanceCard extends Card {
 
     }
 
-    /**
-     * This method restores the chance deck to its original state.
-     * Team member(s) responsible: Jamell
-     */
-    public void cardRestore() {
-        chanceCardsDeck = new ArrayList<>();
-        preloadCards();
-        shuffleDeck();
-    }
 
     /**
      * This method is used to reset the instance of ChanceCard.
      * Team member(s) responsible: Jamell
      */
-    public void reset() {
+    public static void reset() {
         instance = null;
     }
 

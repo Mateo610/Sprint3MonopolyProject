@@ -14,49 +14,50 @@ public class CommunityChestTest {
     @BeforeEach
     public void setUp() {
         Banker.reset();
+        CommunityChestCard.reset();
     }
 
     @Test
     public void TestCommunityChestDatabaseCardType() {
-        CommunityChestCard database = new CommunityChestCard();
-        Assertions.assertEquals(CardType.Community_Chest, database.getCardType());
+        CommunityChestCard communityChestCard = CommunityChestCard.getInstance();
+        Assertions.assertEquals(CardType.Community_Chest, communityChestCard.getCardType());
     }
 
     @Test
     public void TestCommunityChestDatabaseDeck() {
-        CommunityChestCard database = new CommunityChestCard();
+        CommunityChestCard communityChestCard = CommunityChestCard.getInstance();
         ArrayList<String> deckTest = new ArrayList<>();
         deckTest.add("Advance to Go (Collect $200)");
         deckTest.add("You inherit $100");
-        assertEquals(deckTest.get(0), database.getCardDeck().get(0));
-        assertEquals(deckTest.get(deckTest.size() - 1), database.getCardDeck().get(database.getCardDeck().size() - 1));
-        assertEquals(16, database.getCardDeck().size());
+        assertEquals(deckTest.get(0), communityChestCard.getCardDeck().get(0));
+        assertEquals(deckTest.get(deckTest.size() - 1), communityChestCard.getCardDeck().get(communityChestCard.getCardDeck().size() - 1));
+        assertEquals(16, communityChestCard.getCardDeck().size());
     }
 
     @Test
     public void TestCommunityChestCardDatabaseDeckSize() {
-        CommunityChestCard CommunityChestCard = new CommunityChestCard();
-        assertEquals(16, CommunityChestCard.getCardDeck().size());
+        CommunityChestCard communityChestCard = CommunityChestCard.getInstance();
+        assertEquals(16, communityChestCard.getCardDeck().size());
     }
 
 
     @Test
     public void testDrawCardFromDeck(){
-        CommunityChestCard CommunityChestCard = new CommunityChestCard();
-        CommunityChestCard.drawCard();
-        assertEquals(15, CommunityChestCard.getCardDeck().size());
+        CommunityChestCard communityChestCard = CommunityChestCard.getInstance();
+        communityChestCard.drawCard();
+        assertEquals(15, communityChestCard.getCardDeck().size());
     }
 
 
     @Test
     public void testDrawAllCardsAndRestore(){
-        CommunityChestCard CommunityChestCard = new CommunityChestCard();
+        CommunityChestCard communityChestCard = CommunityChestCard.getInstance();
         for (int i = 0; i < 16; i++) {
-            CommunityChestCard.drawCard();
+            communityChestCard.drawCard();
         }
-        assertEquals(0, CommunityChestCard.getCardDeck().size());
-        CommunityChestCard.cardRestore();
-        assertEquals(16, CommunityChestCard.getCardDeck().size());
+        assertEquals(0, communityChestCard.getCardDeck().size());
+        communityChestCard.cardRestore();
+        assertEquals(16, communityChestCard.getCardDeck().size());
     }
 
 

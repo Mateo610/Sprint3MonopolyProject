@@ -17,14 +17,28 @@ import java.util.Collections;
 
 public class CommunityChestCard extends Card {
 
+    private static CommunityChestCard instance;
     private ArrayList<String> communityChanceDeck;
     private Banker banker;
 
-    public CommunityChestCard() {
+    private CommunityChestCard() {
         super("Community Chest Card");
         communityChanceDeck = new ArrayList<>();
         banker = Banker.getInstance();
         preloadCards();
+    }
+
+   /**
+     * This method is used to get the instance of the CommunityChestCard class
+     *
+     * @return CommunityChestCard
+     * Team member(s) responsible: Jamell
+     */
+    public static CommunityChestCard getInstance() {
+        if (instance == null) {
+            instance = new CommunityChestCard();
+        }
+        return instance;
     }
 
     /**
@@ -184,5 +198,9 @@ public class CommunityChestCard extends Card {
 //                System.out.println("Unknown Community Chest card: " + message);
 //                break;
 //        }
+    }
+
+    public static void reset() {
+        instance = null;
     }
 }
