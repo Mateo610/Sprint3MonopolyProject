@@ -17,15 +17,28 @@ import java.util.Collections;
 
 public class ChanceCard extends Card {
 
+    private static ChanceCard instance;
     private Banker banker;
     private ArrayList<String> chanceCardsDeck;
 
-    public ChanceCard() {
+    private ChanceCard() {
         super("Chance Card");
         chanceCardsDeck = new ArrayList<>();
         banker = Banker.getInstance();
         preloadCards();
     }
+
+    /**
+     * Singleton instance of ChanceCard
+     * Team member(s) responsible: Jamell
+     */
+    public static ChanceCard getInstance() {
+        if (instance == null) {
+            instance = new ChanceCard();
+        }
+        return instance;
+    }
+
 
     /**
      * @return the type of the card
@@ -203,6 +216,14 @@ public class ChanceCard extends Card {
         chanceCardsDeck = new ArrayList<>();
         preloadCards();
         shuffleDeck();
+    }
+
+    /**
+     * This method is used to reset the instance of ChanceCard.
+     * Team member(s) responsible: Jamell
+     */
+    public void reset() {
+        instance = null;
     }
 
 

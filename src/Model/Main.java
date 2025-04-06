@@ -8,17 +8,12 @@
 package Model;
 import Model.Board.*;
 import Model.Exceptions.PlayerNotFoundException;
-import Model.Property.ColorGroup;
-import Model.Property.Property;
-import Model.Property.PropertyColor;
 
 public class Main {
     public static void main(String[] args) throws PlayerNotFoundException {
 
-
         System.out.println("");
         System.out.println("**Sprint 3 House Demo**");
-
 
         System.out.println("");
         System.out.println("**Sprint 3 Hotel Demo**");

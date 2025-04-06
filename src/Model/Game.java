@@ -28,7 +28,7 @@ public class Game {
 
     public Game() {
         this.banker = Banker.getInstance();
-        this.chanceCard = new ChanceCard();
+        this.chanceCard = ChanceCard.getInstance();
         this.communityChestCard = new CommunityChestCard();
         this.board = new GameBoard();
         this.players = new ArrayList<>();

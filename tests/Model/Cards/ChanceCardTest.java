@@ -14,34 +14,36 @@ public class ChanceCardTest {
     @BeforeEach
     public void setUp() {
         Banker.reset();
+        ChanceCard chanceCard = ChanceCard.getInstance();
+        chanceCard.reset();
     }
 
     @Test
     public void TestChanceCardDatabaseCardType() {
-        ChanceCard chanceCard = new ChanceCard();
+        ChanceCard chanceCard = ChanceCard.getInstance();
         Assertions.assertEquals(CardType.Chance, chanceCard.getCardType());
     }
 
     @Test
     public void TestChanceCardDatabaseDeck() {
-        ChanceCard chanceCard = new ChanceCard();
         ArrayList<String> testDescriptions = new ArrayList<>();
         testDescriptions.add("Advance to Boardwalk.");
         testDescriptions.add("Your building loan matures. Collect $150.");
+        ChanceCard chanceCard = ChanceCard.getInstance();
         assertEquals(testDescriptions.get(0), chanceCard.getCardDeck().get(0));
         assertEquals(testDescriptions.get(testDescriptions.size() - 1), chanceCard.getCardDeck().get(chanceCard.getCardDeck().size() - 1));        assertEquals(16, chanceCard.getCardDeck().size());
     }
 
     @Test
     public void TestChanceCardDatabaseDeckSize() {
-        ChanceCard chanceCard = new ChanceCard();
+        ChanceCard chanceCard = ChanceCard.getInstance();
         assertEquals(16, chanceCard.getCardDeck().size());
     }
 
 
     @Test
     public void testDrawCardFromDeck(){
-        ChanceCard chanceCard = new ChanceCard();
+        ChanceCard chanceCard = ChanceCard.getInstance();
         chanceCard.drawCard();
         assertEquals(15, chanceCard.getCardDeck().size());
     }
@@ -49,7 +51,7 @@ public class ChanceCardTest {
 
     @Test
     public void testDrawAllCardsAndRestore(){
-        ChanceCard chanceCard = new ChanceCard();
+        ChanceCard chanceCard = ChanceCard.getInstance();
         for (int i = 0; i < 16; i++) {
             chanceCard.drawCard();
         }
