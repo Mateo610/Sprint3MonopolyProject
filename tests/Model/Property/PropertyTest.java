@@ -20,9 +20,10 @@ public class PropertyTest {
 
     @BeforeEach
     public void setUp() throws PlayerNotFoundException {
+        GameBoard.resetInstance();
         Banker.reset();
         Banker banker = Banker.getInstance();
-        GameBoard board = new GameBoard();
+        GameBoard board = GameBoard.getInstance();
         owner = new HumanPlayer("TestOwner", board);
         otherPlayer = new HumanPlayer("TestPlayer", board);
         banker.addPlayer(owner);

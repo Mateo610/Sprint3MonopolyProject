@@ -17,7 +17,8 @@ public class TurnManagerTest {
 
     @BeforeEach
     public void setUp() {
-        gameBoard = new GameBoard();
+        GameBoard.resetInstance();
+        gameBoard = GameBoard.getInstance();
         player1 = new HumanPlayer("Player1", gameBoard);
         player2 = new HumanPlayer("Player2", gameBoard);
         player3 = new HumanPlayer("Player3", gameBoard);

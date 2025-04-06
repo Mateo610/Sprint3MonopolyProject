@@ -18,7 +18,7 @@ public class BoardController {
     private Banker banker;
 
     public BoardController() {
-        this.gameBoard = new GameBoard();
+        this.gameBoard = GameBoard.getInstance();
         this.banker = gameBoard.getBanker();
     }
     public boolean buyHouse(Property property, Player player) {

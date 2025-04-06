@@ -61,7 +61,8 @@ public class BoardSpaceTest {
     public void setUp() {
         Banker.reset();
         Banker.getInstance();
-        board = new GameBoard();
+        GameBoard.resetInstance();
+        board = GameBoard.getInstance();
         testSpace = new TestBoardSpace("Test Space", 5);
         testToken = new Token("Car");
     }

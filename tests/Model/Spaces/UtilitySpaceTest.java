@@ -15,6 +15,7 @@ class UtilitySpaceTest {
     @BeforeEach
     public void setUp() {
        Banker.reset();
+       GameBoard.resetInstance();
     }
 
     @Test
@@ -26,7 +27,7 @@ class UtilitySpaceTest {
     @Test
     public void setOwner() {
         UtilitySpace utilitySpace = new UtilitySpace("Electric Company", 12);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         utilitySpace.setOwner(player);
         assertEquals(player, utilitySpace.getOwner());
@@ -35,7 +36,7 @@ class UtilitySpaceTest {
     @Test
     public void getOwner() {
         UtilitySpace utilitySpace = new UtilitySpace("Electric Company", 12);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         utilitySpace.setOwner(player);
         assertEquals(player, utilitySpace.getOwner());
@@ -44,7 +45,7 @@ class UtilitySpaceTest {
     @Test
     public void onLanding() throws PlayerNotFoundException {
         UtilitySpace utilitySpace = new UtilitySpace("Electric Company", 12);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         Banker banker = Banker.getInstance();
         banker.addPlayer(player);
@@ -57,7 +58,7 @@ class UtilitySpaceTest {
     @Test
     public void calculateRent() throws PlayerNotFoundException {
         UtilitySpace utilitySpace = new UtilitySpace("Electric Company", 12);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player1 = new HumanPlayer("Player1", gameBoard);
         Player player2 = new HumanPlayer("Player2", gameBoard);
         Banker banker = Banker.getInstance();
@@ -72,7 +73,7 @@ class UtilitySpaceTest {
     @Test
     public void onPassing() {
         UtilitySpace utilitySpace = new UtilitySpace("Electric Company", 12);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         utilitySpace.onPassing(player);
         // do nothing

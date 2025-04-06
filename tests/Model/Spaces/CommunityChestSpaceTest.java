@@ -15,12 +15,13 @@ public class CommunityChestSpaceTest {
     @BeforeAll
     static void setUp() {
         Banker.reset();
+        GameBoard.resetInstance();
     }
 
 
     @Test
     public void testGetPurchasePrice() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         CommunityChestSpace communityChestSpace= new CommunityChestSpace(7,gameBoard.getCommunityChestCard());
         assertEquals(0,communityChestSpace.getPurchasePrice());
 
@@ -28,14 +29,14 @@ public class CommunityChestSpaceTest {
 
     @Test
     public void testSetOwner() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         CommunityChestSpace communityChestSpace= new CommunityChestSpace(7,gameBoard.getCommunityChestCard());
         assertNull(communityChestSpace.getOwner());
     }
 
     @Test
     public void testCalculateRent() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         CommunityChestSpace communityChestSpace= new CommunityChestSpace(7,gameBoard.getCommunityChestCard());
         Player player2 = new HumanPlayer("Player2", gameBoard);
         Banker banker = Banker.getInstance();
@@ -45,7 +46,7 @@ public class CommunityChestSpaceTest {
 
     @Test
     public void testGetOwner() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         CommunityChestSpace communityChestSpace= new CommunityChestSpace(7,gameBoard.getCommunityChestCard());
         Player player2 = new HumanPlayer("Player2", gameBoard);
         Banker banker = Banker.getInstance();
@@ -60,7 +61,7 @@ public class CommunityChestSpaceTest {
 
     @Test
     public void testOnPassing() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         CommunityChestSpace communityChestSpace= new CommunityChestSpace(7,gameBoard.getCommunityChestCard());
         Player player2 = new HumanPlayer("Player2", gameBoard);
         Banker banker = Banker.getInstance();

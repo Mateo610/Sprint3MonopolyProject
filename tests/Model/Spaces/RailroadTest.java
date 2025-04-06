@@ -16,6 +16,7 @@ public class RailroadTest {
     @BeforeAll
     public static void setUp() {
         Banker.reset();
+        GameBoard.resetInstance();
     }
 
     @Test
@@ -28,7 +29,7 @@ public class RailroadTest {
     public void setOwner() {
         Railroad railroad = new Railroad("Reading Railroad", 5);
         assertNull(railroad.getOwner());
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player owner = new HumanPlayer("Owner", gameBoard);
         railroad.setOwner(owner);
         assertEquals(owner, railroad.getOwner());
@@ -43,7 +44,7 @@ public class RailroadTest {
     @Test
     public void onLanding() throws PlayerNotFoundException {
         Railroad railroad = new Railroad("Reading Railroad", 5);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Banker banker = Banker.getInstance();
         Player player = new HumanPlayer("Player", gameBoard);
         banker.addPlayer(player);
@@ -56,7 +57,7 @@ public class RailroadTest {
     @Test
     public void onPassing() {
         Railroad railroad = new Railroad("Reading Railroad", 5);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Banker banker = Banker.getInstance();
         Player player = new HumanPlayer("Player", gameBoard);
         banker.addPlayer(player);
@@ -67,7 +68,7 @@ public class RailroadTest {
     @Test
     public void calculateRent() throws PlayerNotFoundException {
         Railroad railroad = new Railroad("Reading Railroad", 5);
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Banker banker = Banker.getInstance();
         Player player = new HumanPlayer("Player", gameBoard);
         Player player2 = new HumanPlayer("Player2", gameBoard);

@@ -24,7 +24,7 @@ public class Main {
         System.out.println("");
         System.out.println("**Sprint 3 Cpu Player Actions Demo**");
         Game game = new Game();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player cpuPlayer3 = new ComputerPlayer("Cpu", gameBoard);
         Player humanPlayer3 = new HumanPlayer("HumanPlayer", gameBoard);
         Banker banker4 = Banker.getInstance();

@@ -15,12 +15,13 @@ public class ChanceSpaceTest {
     @BeforeAll
     static void setUp() {
        Banker.reset();
+       GameBoard.resetInstance();
     }
 
 
     @Test
     public void testGetPurchasePrice() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         ChanceSpace chanceSpace= new ChanceSpace(7,gameBoard.getChanceCard());
         assertEquals(0,chanceSpace.getPurchasePrice());
 
@@ -28,14 +29,14 @@ public class ChanceSpaceTest {
 
     @Test
    public void testSetOwner() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         ChanceSpace chanceSpace= new ChanceSpace(7,gameBoard.getChanceCard());
         assertNull(chanceSpace.getOwner());
     }
 
     @Test
     public void testCalculateRent() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         ChanceSpace chanceSpace= new ChanceSpace(7,gameBoard.getChanceCard());
         Player player2 = new HumanPlayer("Player2", gameBoard);
         Banker banker = Banker.getInstance();
@@ -45,7 +46,7 @@ public class ChanceSpaceTest {
 
     @Test
     public void testGetOwner() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         ChanceSpace chanceSpace= new ChanceSpace(7,gameBoard.getChanceCard());
         Player player2 = new HumanPlayer("Player2", gameBoard);
         Banker banker = Banker.getInstance();
@@ -60,7 +61,7 @@ public class ChanceSpaceTest {
 
     @Test
     public void testOnPassing() {
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         ChanceSpace chanceSpace= new ChanceSpace(7,gameBoard.getChanceCard());
         Player player2 = new HumanPlayer("Player2", gameBoard);
         Banker banker = Banker.getInstance();
