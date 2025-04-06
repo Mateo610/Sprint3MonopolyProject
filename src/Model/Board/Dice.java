@@ -17,11 +17,24 @@ public class Dice {
     private int die1;
     private int die2;
     private int doubleRollCounter;
+    private static Dice instance;
 
-    public Dice() {
+    private Dice() {
         this.random = new Random();
         doubleRollCounter = 0;
     }
+
+    /**
+     * Singleton pattern to ensure only one instance of Dice exists
+     * Team member(s) responsible: Jamell
+     */
+    public static Dice getInstance() {
+        if (instance == null) {
+            instance = new Dice();
+        }
+        return instance;
+    }
+
 
     /**
      * Rolls the dice
@@ -103,4 +116,14 @@ public class Dice {
     public int getDie2() {
         return die2;
     }
+
+    /**
+     * resets the dice
+     * Team member(s) responsible: Jamell
+     */
+    public static void reset() {
+        instance = null;
+    }
+
+
 }

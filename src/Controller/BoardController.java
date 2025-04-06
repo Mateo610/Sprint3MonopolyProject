@@ -78,12 +78,16 @@ public class BoardController {
             return false;
         }
 
+        return false;
+
     }
 
     private boolean canSellHotel(Property property, Player player) {
+        return false;
     }
 
     private boolean canSellHouse(Property property, Player player) {
+        return false;
     }
 
 

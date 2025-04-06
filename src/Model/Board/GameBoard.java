@@ -39,7 +39,7 @@ public class GameBoard {
      **/
     public GameBoard() {
         this.boardElements = new BoardSpace[NUM_SPACES];
-        this.dice = new Dice();
+        this.dice = Dice.getInstance();
         initializeColorGroups();
         initializeBoard(chanceCard, communityChestCard);
         this.banker = Banker.getInstance();

@@ -12,7 +12,8 @@ public class DiceTest {
 
     @BeforeEach
     public void setUp() {
-        dice = new Dice();
+        dice = Dice.getInstance();
+        dice.reset();
     }
 
     @Test
