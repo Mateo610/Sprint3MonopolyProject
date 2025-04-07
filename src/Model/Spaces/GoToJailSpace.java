@@ -12,6 +12,8 @@ import Model.Board.Player;
 import Model.Exceptions.PlayerNotFoundException;
 
 public class GoToJailSpace extends BoardSpace {
+    private static final int JAIL_POSITION = 10;
+
     /**
      * Constructor for GoToJailSpace
      *
@@ -70,7 +72,7 @@ public class GoToJailSpace extends BoardSpace {
     @Override
     public void onLanding(Player player) throws PlayerNotFoundException {
         player.setInJail(true);
-        player.move(player, 10); // Move to jail space
+        player.setPosition(JAIL_POSITION); // Directly set position to jail (10)
     }
 
     /**
@@ -83,5 +85,4 @@ public class GoToJailSpace extends BoardSpace {
     public void onPassing(Player player) {
         // Do nothing
     }
-
 }

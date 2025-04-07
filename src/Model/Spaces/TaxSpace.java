@@ -75,6 +75,10 @@ public class TaxSpace extends BoardSpace {
         if (getName().equals("Income Tax")) {
             int percentageTax = (int) (banker.getBalance(player) * TAX_RATE);
             int taxToPay = getUserChoice(player, INCOME_TAX_AMOUNT, percentageTax);
+
+            // Actually withdraw the money from the player
+            banker.withdraw(player, taxToPay);
+
             System.out.println(player.getName() + " chose to pay $" + taxToPay + " in Income Tax.");
         } else if (getName().equals("Luxury Tax")) {
             banker.withdraw(player, LUXURY_TAX_AMOUNT);
@@ -84,8 +88,8 @@ public class TaxSpace extends BoardSpace {
 
     // Temporary method that should be moved into a game manager class
     private int getUserChoice(Player player, int flatTax, int percentageTax) {
-        // Needs the UI logic
-        return percentageTax;
+        // For testing purposes, we'll use the lower amount
+        return Math.min(flatTax, percentageTax);
     }
 
     /**
