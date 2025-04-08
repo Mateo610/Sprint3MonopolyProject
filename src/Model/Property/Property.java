@@ -151,6 +151,9 @@ public class Property extends BoardSpace {
      * Team member(s) responsible: Matt
      */
     public boolean addHouse() {
+        if (isMortgaged) {
+            return false;
+        }
         if (numHouses < 4 && !hasHotel && canAddHouse()) {
             numHouses++;
             return true;
@@ -164,6 +167,9 @@ public class Property extends BoardSpace {
      * Team member(s) responsible: Original implementation team
      */
     public boolean addHotel() {
+        if (isMortgaged) {
+            return false;
+        }
         if (numHouses == 4 && !hasHotel && canAddHotel()) {
             numHouses = 0;
             hasHotel = true;
@@ -241,7 +247,7 @@ public class Property extends BoardSpace {
      * Team member(s) responsible: Matt
      */
     public boolean removeHouse() {
-        if (numHouses > 0) {
+        if (numHouses > 0 && !hasHotel) {
             numHouses--;
             return true;
         }
