@@ -23,6 +23,11 @@ public class BoardController {
         this.banker = gameBoard.getBanker();
     }
     public boolean buyHouse(Property property, Player player) {
+        // First verify that player is not null before trying to use canBuyHouse
+        if (player == null) {
+            throw new RuntimeException(new PlayerNotFoundException());
+        }
+
         try {
             if (canBuyHouse(property, player)) {
                 banker.sellHouse(property, player);
@@ -35,6 +40,10 @@ public class BoardController {
         }
     }
     public boolean buyHotel(Property property, Player player) {
+        if (player == null) {
+            throw new RuntimeException(new PlayerNotFoundException());
+        }
+
         try {
             if (canBuyHotel(property, player)) {
                 banker.sellHotel(property, player);
@@ -47,6 +56,10 @@ public class BoardController {
         }
     }
     public boolean sellHouse(Property property, Player player) {
+        if (player == null) {
+            throw new RuntimeException(new PlayerNotFoundException());
+        }
+
         try {
             if (canSellHouse(property, player)) {
                 banker.buyBackHouse(property, player);
@@ -58,7 +71,12 @@ public class BoardController {
             throw new RuntimeException(e);
         }
     }
+
     public boolean sellHotel(Property property, Player player) {
+        if (player == null) {
+            throw new RuntimeException(new PlayerNotFoundException());
+        }
+
         try {
             if (canSellHotel(property, player)) {
                 banker.buyBackHotel(property, player);
