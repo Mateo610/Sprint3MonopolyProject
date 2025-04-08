@@ -10,6 +10,7 @@ package Controller;
 import Model.Board.Banker;
 import Model.Board.GameBoard;
 import Model.Board.Player;
+import Model.Exceptions.InsufficientFundsException;
 import Model.Exceptions.PlayerNotFoundException;
 import Model.Property.Property;
 
@@ -70,20 +71,95 @@ public class BoardController {
         }
     }
 
-    private boolean canBuyHouse(Property property, Player player) {
-        return false;
-    }
-    private boolean canBuyHotel(Property property, Player player) {
+    private boolean canBuyHouse(Property property, Player player) throws PlayerNotFoundException {
         if (property.getOwner() != player) {
+            return false;
+        }
+        if (property.isMortgaged()) {
+            return false;
+        }
+        if (!property.getColorGroup().hasMonopoly(player)) {
+            return false;
+        }
+        if (property.hasHotel()) {
+            return false;
+        }
+        if (property.getNumHouses() >= 4) {
+            return false;
+        }
+        if (!property.getColorGroup().canAddHouse(property)) {
+            return false;
+        }
+        if (banker.getAvailableHouses() <= 0) {
+            return false;
+        }
+        try {
+            return banker.getBalance(player) >= property.getHousePrice();
+        } catch (InsufficientFundsException e) {
+            return false;
+        }
+    }
+    private boolean canBuyHotel(Property property, Player player) throws PlayerNotFoundException {
+        if (property.getOwner() != player) {
+            return false;
+        }
+        if (property.isMortgaged()) {
+            return false;
+        }
+        if (!property.getColorGroup().hasMonopoly(player)) {
+            return false;
+        }
+        if (property.getNumHouses() >= 4) {
+            return false;
+        }
+        if (property.hasHotel()) {
+            return false;
+        }
+        if (!property.getColorGroup().canAddHotel(property)) {
+            return false;
+        }
+        if (banker.getAvailableHotels() <= 0) {
+            return false;
+        }
+        try {
+            return banker.getBalance(player) >= property.getHousePrice();
+        } catch (InsufficientFundsException e) {
             return false;
         }
 
     }
 
     private boolean canSellHotel(Property property, Player player) {
+        if (property.getOwner() != player) {
+            return false;
+        }
+        if (!property.hasHotel()) {
+            return false;
+        }
+        if (banker.getAvailableHouses() < 4) {
+            return false;
+        }
+
+        return true;
     }
 
     private boolean canSellHouse(Property property, Player player) {
+        if (property.getOwner() != player) {
+            return false;
+        }
+        if (property.getNumHouses() <= 0) {
+            return false;
+        }
+        if (property.hasHotel()) {
+            return false;
+        }
+        int currentHouses = property.getNumHouses();
+        for (Property p : property.getColorGroup().getProperties()) {
+            if (p != property && p.getNumHouses() > currentHouses && !p.hasHotel()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
