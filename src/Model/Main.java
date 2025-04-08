@@ -9,6 +9,8 @@ package Model;
 import Model.Board.*;
 import Model.Exceptions.PlayerNotFoundException;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) throws PlayerNotFoundException {
 
@@ -20,6 +22,48 @@ public class Main {
 
         System.out.println("");
         System.out.println("**Sprint 3 Player Turn Demo**");
+        System.out.println("");
+        System.out.println("**Sprint 3 Player Turn Demo**");
+        // Create game instance and required objects
+        Game newGame = new Game();
+        GameBoard newGameBoard = GameBoard.getInstance();
+        Banker banker = Banker.getInstance();
+
+        // Create players
+        Player player1 = new HumanPlayer("Alice", newGameBoard);
+        Player player2 = new HumanPlayer("Bob", newGameBoard);
+
+        // Add players to game
+        newGame.addPlayer(player1);
+        newGame.addPlayer(player2);
+        System.out.println("Added players: " + player1.getName() + ", " + player2.getName());
+
+        // Start the game
+        newGame.startGame();
+
+        // Create turn manager with the players
+        ArrayList<Player> players = newGame.getPlayers();
+        TurnManager turnManager = new TurnManager(players);
+
+        // Display turn order
+        System.out.println("Turn order: ");
+        for (Player p : turnManager.getTurnOrder()) {
+            System.out.println("- " + p.getName());
+        }
+
+        // Simulate a few turns
+        for (int turn = 1; turn <= 3; turn++) {
+            System.out.println("\n--- Turn " + turn + " ---");
+            Player currentPlayer = turnManager.getCurrentPlayer();
+            System.out.println("Current player: " + currentPlayer.getName());
+
+            // Process the player's turn using our enhanced TurnManager
+            String turnResult = turnManager.processTurn(currentPlayer);
+            System.out.print(turnResult);
+
+            // Move to next player
+            turnManager.nextTurn();
+        }
 
         System.out.println("");
         System.out.println("**Sprint 3 Cpu Player Actions Demo**");
