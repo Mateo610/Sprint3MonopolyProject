@@ -17,19 +17,21 @@ public class PropertyTest {
     private Player owner;
     private Player otherPlayer;
     private Banker banker;
+    private Property boardwalk;
+    private Property parkPlace;
 
     @BeforeEach
     public void setUp() throws PlayerNotFoundException {
         GameBoard.resetInstance();
         Banker.reset();
-        Banker banker = Banker.getInstance();
+        banker = Banker.getInstance();
         GameBoard board = GameBoard.getInstance();
         owner = new HumanPlayer("TestOwner", board);
         otherPlayer = new HumanPlayer("TestPlayer", board);
         banker.addPlayer(owner);
         banker.addPlayer(otherPlayer);
         colorGroup = new ColorGroup(PropertyColor.DARK_BLUE, 2);
-        property = new Property(
+        boardwalk = new Property(
                 "Boardwalk",
                 39,
                 400,
@@ -39,52 +41,120 @@ public class PropertyTest {
                 200,
                 PropertyColor.DARK_BLUE,
                 colorGroup);
-        colorGroup.addProperty(property);
+        parkPlace = new Property(
+                "Park Place",
+                37,
+                350,
+                35,
+                new int[]{175, 500, 1100, 1300},
+                1500,
+                175,
+                PropertyColor.DARK_BLUE,
+                colorGroup
+        );
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("Boardwalk", property.getName());
-        assertEquals(39, property.getPosition());
-        assertEquals(400, property.getPurchasePrice());
-        assertNull(property.getOwner());
-        assertFalse(property.isMortgaged());
-        assertEquals(0, property.getNumHouses());
-        assertFalse(property.hasHotel());
+        assertEquals("Boardwalk", boardwalk.getName());
+        assertEquals(39, boardwalk.getPosition());
+        assertEquals(400, boardwalk.getPurchasePrice());
+        assertNull(boardwalk.getOwner());
+        assertFalse(boardwalk.isMortgaged());
+        assertEquals(0, boardwalk.getNumHouses());
+        assertFalse(boardwalk.hasHotel());
+    }
+
+    @Test
+    public void testPropertyOwnership() {
+        assertNull(boardwalk.getOwner());
+        boardwalk.setOwner(owner);
+        assertEquals(owner, boardwalk.getOwner());
     }
 
     @Test
     public void testRentCalculationNoHouses() throws PlayerNotFoundException {
-        property.setOwner(owner);
-        assertEquals(50, property.calculateRent(owner));
+        boardwalk.setOwner(owner);
+        assertEquals(50, boardwalk.calculateRent(otherPlayer));
+    }
+
+    @Test
+    public void testRentCalculationWithMonopoly() throws PlayerNotFoundException {
+        boardwalk.setOwner(owner);
+        parkPlace.setOwner(owner);
+        assertTrue(colorGroup.hasMonopoly(owner));
+        assertEquals(100, boardwalk.calculateRent(otherPlayer));
+    }
+//    @Test
+//    public void testRentCalculationWithHouses() throws PlayerNotFoundException {
+//        boardwalk.setOwner(owner);
+//        parkPlace.setOwner(owner);
+//        boardwalk.buyHouse(banker);
+//        assertEquals(1, boardwalk.getNumHouses());
+//        assertEquals(200, boardwalk.calculateRent(otherPlayer));
+//        boardwalk.buyHouse(banker);
+//        assertEquals(2, boardwalk.getNumHouses());
+//        assertEquals(600, boardwalk.calculateRent(otherPlayer));
+////        boardwalk.buyHouse(banker);
+////        assertEquals(3, boardwalk.getNumHouses());
+////        assertEquals(1400, boardwalk.calculateRent(otherPlayer));
+////        boardwalk.buyHouse(banker);
+////        assertEquals(4, boardwalk.getNumHouses());
+////        assertEquals(1700, boardwalk.calculateRent(otherPlayer));
+//    }
+//    @Test
+//    public void testRentCalculationWithHotel() throws PlayerNotFoundException {
+//        boardwalk.setOwner(owner);
+//        parkPlace.setOwner(owner);
+//        for (int i = 0; i < 5; i++) {
+//            boardwalk.buyHouse(banker);
+//        }
+//        boardwalk.buyHotel(banker);
+//        assertTrue(boardwalk.hasHotel());
+//        assertEquals(2000, boardwalk.calculateRent(otherPlayer));
+//    }
+    @Test
+    public void testCanBuyHouse() throws PlayerNotFoundException {
+        boardwalk.setOwner(owner);
+        assertFalse(boardwalk.canBuyHouse(banker));
+        parkPlace.setOwner(owner);
+        assertTrue(boardwalk.canBuyHouse(banker));
+    }
+    @Test
+    public void testBuyHouse() throws PlayerNotFoundException {
+        boardwalk.setOwner(owner);
+        assertFalse(boardwalk.canBuyHouse(banker));
+        parkPlace.setOwner(owner);
+        assertTrue(boardwalk.canBuyHouse(banker));
+        int initialBalance = banker.getBalance(owner);
+        assertTrue(boardwalk.buyHouse(banker));
+        assertEquals(1, boardwalk.getNumHouses());
+        assertEquals(initialBalance - boardwalk.getHousePrice(), banker.getBalance(owner));
+    }
+
+    @Test
+    public void testCannotBuyHouseWithoutOwner() {
+        assertFalse(boardwalk.canBuyHouse(banker));
+    }
+
+    @Test
+    public void testCannotBuyHouseWhenMortgaged() throws PlayerNotFoundException {
+        boardwalk.setOwner(owner);
+        parkPlace.setOwner(owner);
+        boardwalk.setMortgaged(true);
+        assertFalse(boardwalk.canBuyHouse(banker));
     }
 
 //    @Test
-//    public void testHouseAdd() throws PlayerNotFoundException {
-//        property.setOwner(owner);
-//        property.addHouse();
-//        assertEquals(1, property.getNumHouses());
-//        assertEquals(200, property.calculateRent(owner));
-//    }
-//
-//    @Test
-//    public void testHouseAddMax() throws PlayerNotFoundException {
-//        property.setOwner(owner);
-//        for (int i = 0; i < 5; i++) {
-//            property.addHouse();
+//    public void testCannotBuyMoreThanFourHouses() throws PlayerNotFoundException {
+//        boardwalk.setOwner(owner);
+//        parkPlace.setOwner(owner);
+//        for (int i = 0; i < 4; i++) {
+//            boardwalk.buyHouse(banker);
 //        }
-//        assertEquals(5, property.getNumHouses());
-//        assertEquals(200, property.calculateRent(owner));
+//        assertEquals(4, boardwalk.getNumHouses());
+//        assertFalse(boardwalk.buyHouse(banker));
 //    }
-//
-//    @Test
-//    public void testHotelAdd() throws PlayerNotFoundException {
-//        property.setOwner(owner);
-//        for (int i = 0; i < 5; i++) {
-//            property.addHouse();
-//        }
-//        property.addHotel();
-//        assertTrue(property.hasHotel());
-//        assertEquals(2000, property.calculateRent(owner));
-//    }
+
+
 }

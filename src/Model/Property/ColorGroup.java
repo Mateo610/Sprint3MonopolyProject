@@ -44,7 +44,7 @@ public class ColorGroup {
      *                 Team member(s) responsible: Matt
      */
     public void addProperty(Property property) {
-        if (properties.size() < propertiesInGroup) {
+        if (!properties.contains(property) && properties.size() < propertiesInGroup) {
             properties.add(property);
         }
     }
@@ -86,7 +86,7 @@ public class ColorGroup {
 
         for (Property p : properties) {
             if (p.hasHotel()) {
-                return false;
+                continue;
             }
             if (currentHouses + 1 > p.getNumHouses() + 1) {
                 return false;
@@ -110,6 +110,24 @@ public class ColorGroup {
 
         for (Property p : properties) {
             if (p.hasHotel() || p.getNumHouses() != 4) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public boolean canSellHouse(Property property) {
+        if (!properties.contains(property)) {
+            return false;
+        }
+
+        int currentHouses = property.getNumHouses();
+
+        for (Property p : properties) {
+            if (p.hasHotel() || p == property) {
+                continue;
+            }
+            if (p.getNumHouses() > currentHouses) {
                 return false;
             }
         }
@@ -165,6 +183,20 @@ public class ColorGroup {
     }
 
     /**
+     * Checks if any property in the group is mortgaged
+     * @return true if any property is mortgaged
+     * Team member(s) responsible: Deborah
+     */
+    public boolean hasAnyMortgaged() {
+        for (Property property : properties) {
+            if (property.isMortgaged()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Gets the color of this group
      *
      * @return The color
@@ -193,4 +225,6 @@ public class ColorGroup {
     public int getPropertiesInGroup() {
         return propertiesInGroup;
     }
+
+
 }

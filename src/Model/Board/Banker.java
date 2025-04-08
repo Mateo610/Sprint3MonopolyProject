@@ -390,6 +390,45 @@ public class Banker {
         return availableHotels;
     }
 
+    /**
+     * Decrement the number of available hotels
+     * Team member(s) responsible: Deborah
+     */
+    public void decrementAvailableHotels() {
+        if (availableHotels > 0) {
+            availableHotels--;
+        }
+    }
+
+    /**
+     * Increment the number of available houses
+     * @param i
+     * Team member(s) responsible: Deborah
+     */
+    public void incrementAvailableHouses(int i) {
+        availableHouses += i;
+    }
+
+    /**
+     * Decrement the number of available houses
+     * @param i
+     */
+    public void decrementAvailableHouses(int i) {
+        if (availableHouses > 0) {
+            availableHouses -= i;
+        }
+
+    }
+
+    /**
+     * Increment the number of available hotels
+     * @param i
+     * Team member(s) responsible: Deborah
+     */
+    public void incrementAvailableHotels(int i) {
+        availableHotels += i;
+    }
+
 //    /**
 //     * Conducts an auction for a property among a list of bidders.
 //     * @param property The property being auctioned
@@ -609,4 +648,7 @@ public class Banker {
     public static void reset() {
         instance = null;
     }
+
+
+
 }

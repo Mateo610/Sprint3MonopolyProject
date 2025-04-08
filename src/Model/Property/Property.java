@@ -58,6 +58,7 @@ public class Property extends BoardSpace {
         this.hasHotel = false;
         this.banker = Banker.getInstance();
         setHousePriceByColor();
+        colorGroup.addProperty(this);
     }
 
     /**
@@ -138,11 +139,203 @@ public class Property extends BoardSpace {
             rent = houseRents[numHouses - 1];
         } else {
             rent = baseRent;
-            if (colorGroup.hasMonopoly(owner)) {
+            if (owner != null && colorGroup.hasMonopoly(owner)) {
                 rent *= 2;
             }
         }
         return rent;
+    }
+
+    /**
+     * Attempts to buy a house for the property
+     * @param banker
+     * @return true if the house was successfully bought
+     * Team member(s) responsible: Deborah
+     */
+    public boolean buyHouse(Banker banker) {
+        if (!canBuyHouse(banker)) {
+            return false;
+        }
+        try {
+            banker.withdraw(owner, housePrice);
+            banker.decrementAvailableHouses(1);
+            numHouses++;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if a house can be bought for the property
+     * @param banker
+     * @return true if a house can be bought
+     * Team member(s) responsible: Deborah
+     */
+    public boolean canBuyHouse(Banker banker) {
+        if (owner == null) {
+            return false;
+        }
+        if (isMortgaged) {
+            return false;
+        }
+        if (!colorGroup.hasMonopoly(owner)) {
+            return false;
+        }
+        if (hasHotel) {
+            return false;
+        }
+        if (numHouses >= 4) {
+            return false;
+        }
+        if (!colorGroup.canAddHouse(this)) {
+            return false;
+        }
+        if (banker.getAvailableHouses() <= 0) {
+            return false;
+        }
+        try {
+            return banker.getBalance(owner) >= housePrice;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Attempts to buy a hotel for the property
+     * @param banker
+     * @return true if the hotel was successfully bought
+     * Team member(s) responsible: Deborah
+     */
+    public boolean buyHotel(Banker banker) {
+        if (!canBuyHotel(banker)) {
+            return false;
+        }
+        try {
+            banker.withdraw(owner, housePrice);
+            banker.decrementAvailableHotels();
+            banker.incrementAvailableHouses(4);
+            hasHotel = true;
+            numHouses = 0;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if a hotel can be bought for the property
+     * @param banker
+     * @return true if a hotel can be bought
+     * Team member(s) responsible: Deborah
+     */
+    public boolean canBuyHotel(Banker banker) {
+        if (owner == null) {
+            return false;
+        }
+        if (isMortgaged) {
+            return false;
+        }
+        if (!colorGroup.hasMonopoly(owner)) {
+            return false;
+        }
+        if (numHouses != 4) {
+            return false;
+        }
+        if (hasHotel) {
+            return false;
+        }
+        if (!colorGroup.canAddHotel(this)) {
+            return false;
+        }
+        if (banker.getAvailableHotels() <= 0) {
+            return false;
+        }
+        try {
+            return banker.getBalance(owner) >= housePrice;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Attempts to sell a house for the property
+     * @param banker
+     * @return true if the house was successfully sold
+     * Team member(s) responsible: Deborah
+     */
+    public boolean sellHouse(Banker banker) {
+        if (!canSellHouse(banker)) {
+            return false;
+        }
+        try {
+            banker.deposit(owner, housePrice / 2);
+            banker.incrementAvailableHouses(1);
+            numHouses--;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if a house can be sold for the property
+     * @param banker
+     * @return true if a house can be sold
+     * Team member(s) responsible: Deborah
+     */
+    public boolean canSellHouse(Banker banker) {
+        if (owner == null) {
+            return false;
+        }
+        if (numHouses <= 0) {
+            return false;
+        }
+        if (hasHotel) {
+            return false;
+        }
+        return colorGroup.canSellHouse(this);
+    }
+
+    /**
+     * Attempts to sell a hotel for the property
+     * @param banker
+     * @return true if the hotel was successfully sold
+     * Team member(s) responsible: Deborah
+     */
+    public boolean sellHotel(Banker banker) {
+        if (!canSellHotel(banker)) {
+            return false;
+        }
+        try {
+            banker.deposit(owner, housePrice / 2);
+            banker.incrementAvailableHotels(1);
+            banker.decrementAvailableHouses(4);
+            hasHotel = false;
+            numHouses = 4;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if a hotel can be sold for the property
+     * @param banker
+     * @return true if a hotel can be sold
+     * Team member(s) responsible: Deborah
+     */
+    public boolean canSellHotel(Banker banker) {
+        if (owner == null) {
+            return false;
+        }
+        if (!hasHotel) {
+            return false;
+        }
+        if (banker.getAvailableHouses() < 4) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -200,20 +393,38 @@ public class Property extends BoardSpace {
     /**
      * Mortgages the property
      * @return true if property was successfully mortgaged
-     * Team member(s) responsible:  Matt
+     * Team member(s) responsible:  Deborah
      */
     public boolean mortgage() throws PlayerNotFoundException {
-        if (!isMortgaged && numHouses == 0 && !hasHotel) {
-            try {
-                banker.buyBackProperty(this, owner);
-                return true;
-            } catch (Exception e) {
-                isMortgaged = true;
-                banker.deposit(owner,mortgageValue);
-                return true;
-            }
+        if (!canMortgage()) {
+            return false;
         }
-        return false;
+        try {
+            banker.buyBackProperty(this, owner);
+            return true;
+        } catch (Exception e) {
+            isMortgaged = true;
+            banker.deposit(owner, mortgageValue);
+        return true;
+        }
+    }
+
+    /**
+     * Checks if the property can be mortgaged
+     * @return true if the property can be mortgaged
+     * Team member(s) responsible: Deborah
+     */
+    public boolean canMortgage() {
+        if (isMortgaged) {
+            return false;
+        }
+        if (numHouses > 0 || hasHotel) {
+            return false;
+        }
+        if (owner == null) {
+            return false;
+        }
+        return true;
     }
 
     /**
