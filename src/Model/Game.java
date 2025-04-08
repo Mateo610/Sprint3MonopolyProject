@@ -28,12 +28,12 @@ public class Game {
 
     public Game() {
         this.banker = Banker.getInstance();
-        this.chanceCard = new ChanceCard();
-        this.communityChestCard = new CommunityChestCard();
-        this.board = new GameBoard();
+        this.chanceCard = ChanceCard.getInstance();
+        this.communityChestCard = CommunityChestCard.getInstance();
+        this.board = GameBoard.getInstance();
         this.players = new ArrayList<>();
         this.inProgress = false;
-        this.board = new GameBoard();
+        this.board = GameBoard.getInstance();
     }
     /**
      * This method is used to get the board object.

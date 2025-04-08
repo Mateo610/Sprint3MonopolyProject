@@ -17,15 +17,28 @@ import java.util.Collections;
 
 public class ChanceCard extends Card {
 
+    private static ChanceCard instance;
     private Banker banker;
     private ArrayList<String> chanceCardsDeck;
 
-    public ChanceCard() {
+    private ChanceCard() {
         super("Chance Card");
         chanceCardsDeck = new ArrayList<>();
         banker = Banker.getInstance();
         preloadCards();
     }
+
+    /**
+     * Singleton instance of ChanceCard
+     * Team member(s) responsible: Jamell
+     */
+    public static ChanceCard getInstance() {
+        if (instance == null) {
+            instance = new ChanceCard();
+        }
+        return instance;
+    }
+
 
     /**
      * @return the type of the card
@@ -81,6 +94,17 @@ public class ChanceCard extends Card {
         }
         return "No more cards in the deck.";
     }
+
+    /**
+     * This method restores the chance deck to its original state.
+     * Team member(s) responsible: Jamell
+     */
+    public void cardRestore() {
+        chanceCardsDeck = new ArrayList<>();
+        preloadCards();
+        shuffleDeck();
+    }
+
 
     /**
      * This method shuffles the chance deck.
@@ -195,14 +219,13 @@ public class ChanceCard extends Card {
 
     }
 
+
     /**
-     * This method restores the chance deck to its original state.
+     * This method is used to reset the instance of ChanceCard.
      * Team member(s) responsible: Jamell
      */
-    public void cardRestore() {
-        chanceCardsDeck = new ArrayList<>();
-        preloadCards();
-        shuffleDeck();
+    public static void reset() {
+        instance = null;
     }
 
 

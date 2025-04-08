@@ -13,13 +13,14 @@ public class PlayerTest{
     @BeforeEach
     public void setUp() {
         Banker.reset();
+        GameBoard.resetInstance();
     }
 
 
     @Test
     public void testPlayerConstructor() {
         Banker banker = Banker.getInstance();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("TestPlayer", gameBoard);
         assertEquals("TestPlayer", player.getName());
         assertFalse(player.isInJail());
@@ -29,7 +30,7 @@ public class PlayerTest{
     @Test
     public void testPlayerMoveToProperty() throws PlayerNotFoundException {
         Banker banker = Banker.getInstance();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard =GameBoard.getInstance();
         Player player = new HumanPlayer("TestPlayer", gameBoard);
         banker.addPlayer(player);
         Token token = new Token("TestToken");
@@ -42,7 +43,7 @@ public class PlayerTest{
     @Test
     public void testPlayerMoveToRailRoad() throws PlayerNotFoundException {
         Banker banker = Banker.getInstance();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("TestPlayer", gameBoard);
         Token token = new Token("TestToken");
         player.setTokenToPlayer(token);
@@ -57,7 +58,7 @@ public class PlayerTest{
     @Test
     public void testPlayerMoveToUtility() throws PlayerNotFoundException {
         Banker banker = Banker.getInstance();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("TestPlayer", gameBoard);
         Token token = new Token("TestToken");
         player.setTokenToPlayer(token);
@@ -70,7 +71,7 @@ public class PlayerTest{
     @Test
     public void testPlayerMoveToJailVisiting() throws PlayerNotFoundException {
         Banker banker = Banker.getInstance();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("TestPlayer", gameBoard);
         Token token = new Token("TestToken");
         player.setTokenToPlayer(token);
@@ -88,7 +89,7 @@ public class PlayerTest{
     @Test
     public void testPlayerMoveToTaxSpace() throws PlayerNotFoundException {
         Banker banker = Banker.getInstance();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("TestPlayer", gameBoard);
         Token token = new Token("TestToken");
         player.setTokenToPlayer(token);
@@ -100,7 +101,7 @@ public class PlayerTest{
 
     @Test
     public void testComputerPlayerName(){
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new ComputerPlayer("TestPlayer", gameBoard);
         assertEquals("Cpu", player.getName());
     }

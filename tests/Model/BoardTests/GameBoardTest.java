@@ -11,7 +11,7 @@ public class GameBoardTest {
     public void testBoardInitialization() {
         Banker.reset();
         Banker banker = Banker.getInstance();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         assertNotNull(gameBoard);
         assertEquals(40, gameBoard.getBoardElements().length, "The board should have exactly 40 spaces.");
         assertEquals("Go", gameBoard.getBoardElements()[0].getName());

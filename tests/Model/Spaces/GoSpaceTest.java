@@ -14,6 +14,7 @@ public class GoSpaceTest {
     @BeforeAll
     public static void setUp() {
         Banker.reset();
+        GameBoard.resetInstance();
     }
 
 
@@ -27,7 +28,7 @@ public class GoSpaceTest {
     @Test
     public void setOwner() {
         GoSpace goSpace = new GoSpace();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         goSpace.setOwner(player);
         assertEquals(null, goSpace.getOwner()); //needs no owner
@@ -36,7 +37,7 @@ public class GoSpaceTest {
     @Test
     public void calculateRent() {
         GoSpace goSpace = new GoSpace();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         int rent = goSpace.calculateRent(player);
         assertEquals(0, rent);
@@ -52,7 +53,7 @@ public class GoSpaceTest {
     @Test
     public void onLanding() throws PlayerNotFoundException {
         GoSpace goSpace = new GoSpace();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         Banker banker = Banker.getInstance();
         banker.addPlayer(player);
@@ -63,7 +64,7 @@ public class GoSpaceTest {
     @Test
     public void onPassing() throws PlayerNotFoundException {
         GoSpace goSpace = new GoSpace();
-        GameBoard gameBoard = new GameBoard();
+        GameBoard gameBoard = GameBoard.getInstance();
         Player player = new HumanPlayer("Player1", gameBoard);
         Banker banker = Banker.getInstance();
         banker.addPlayer(player);

@@ -12,7 +12,7 @@ public class TokenTest {
 
     @BeforeEach
     public void setUp() {
-        gameBoard = new GameBoard();
+        gameBoard = GameBoard.getInstance();
         player = new HumanPlayer("TestPlayer", gameBoard);
         token = new Token("Car");
     }
