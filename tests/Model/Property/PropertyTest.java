@@ -85,34 +85,7 @@ public class PropertyTest {
         assertTrue(colorGroup.hasMonopoly(owner));
         assertEquals(100, boardwalk.calculateRent(otherPlayer));
     }
-//    @Test
-//    public void testRentCalculationWithHouses() throws PlayerNotFoundException {
-//        boardwalk.setOwner(owner);
-//        parkPlace.setOwner(owner);
-//        boardwalk.buyHouse(banker);
-//        assertEquals(1, boardwalk.getNumHouses());
-//        assertEquals(200, boardwalk.calculateRent(otherPlayer));
-//        boardwalk.buyHouse(banker);
-//        assertEquals(2, boardwalk.getNumHouses());
-//        assertEquals(600, boardwalk.calculateRent(otherPlayer));
-////        boardwalk.buyHouse(banker);
-////        assertEquals(3, boardwalk.getNumHouses());
-////        assertEquals(1400, boardwalk.calculateRent(otherPlayer));
-////        boardwalk.buyHouse(banker);
-////        assertEquals(4, boardwalk.getNumHouses());
-////        assertEquals(1700, boardwalk.calculateRent(otherPlayer));
-//    }
-//    @Test
-//    public void testRentCalculationWithHotel() throws PlayerNotFoundException {
-//        boardwalk.setOwner(owner);
-//        parkPlace.setOwner(owner);
-//        for (int i = 0; i < 5; i++) {
-//            boardwalk.buyHouse(banker);
-//        }
-//        boardwalk.buyHotel(banker);
-//        assertTrue(boardwalk.hasHotel());
-//        assertEquals(2000, boardwalk.calculateRent(otherPlayer));
-//    }
+
     @Test
     public void testCanBuyHouse() throws PlayerNotFoundException {
         boardwalk.setOwner(owner);
@@ -145,16 +118,6 @@ public class PropertyTest {
         assertFalse(boardwalk.canBuyHouse(banker));
     }
 
-//    @Test
-//    public void testCannotBuyMoreThanFourHouses() throws PlayerNotFoundException {
-//        boardwalk.setOwner(owner);
-//        parkPlace.setOwner(owner);
-//        for (int i = 0; i < 4; i++) {
-//            boardwalk.buyHouse(banker);
-//        }
-//        assertEquals(4, boardwalk.getNumHouses());
-//        assertFalse(boardwalk.buyHouse(banker));
-//    }
 
 
 }

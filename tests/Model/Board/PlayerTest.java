@@ -3,7 +3,9 @@ package Model.Board;
 import static org.junit.jupiter.api.Assertions.*;
 
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Property.ColorGroup;
 import Model.Property.Property;
+import Model.Property.PropertyColor;
 import Model.Spaces.Railroad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -146,13 +148,9 @@ public class PlayerTest{
         player.sellHouse(property, player);
         assertEquals(28, banker.getAvailableHouses());
 //        player.sellHotel(property, player);
-//        assertEquals(27, banker.getAvailableHotels());
+//        assertEquals(11, banker.getAvailableHotels());
 //        assertEquals(32, banker.getAvailableHouses());
     }
-
-
-
-
 
     @Test
     public void testPlayerMoveToIncomeTaxSpace() throws PlayerNotFoundException {
@@ -167,32 +165,29 @@ public class PlayerTest{
         assertEquals(1350, banker.getBalance(player));
     }
 
-    //chance cards
-//    @Test
-//    public void testPlayerChanceCards() throws PlayerNotFoundException {
-//        Banker banker = Banker.getInstance();
-//        GameBoard gameBoard = new GameBoard();
-//        Player player = new HumanPlayer("TestPlayer", gameBoard);
-//        Token token = new Token("TestToken");
-//        player.setTokenToPlayer(token);
-//        banker.addPlayer(player);
-//        player.move(player, 7);
-//        assertEquals(7, player.getPosition());
-//        gameBoard.getCommunityChestCard().drawCard();
-//    }
+    @Test
+    public void testPropertySellProperty() throws PlayerNotFoundException {
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = GameBoard.getInstance();
+        Player player = new HumanPlayer("TestPlayer", gameBoard);
+        Token token = new Token("TestToken");
+        player.setTokenToPlayer(token);
+        banker.addPlayer(player);
+        ColorGroup colorGroup = new ColorGroup(PropertyColor.DARK_BLUE, 2);
+        Property boardwalk = new Property(
+                "Boardwalk",
+                39,
+                400,
+                50,
+                new int[]{200, 600, 1400, 1700},
+                2000,
+                200,
+                PropertyColor.DARK_BLUE,
+                colorGroup);
+        banker.addAvailableProperty(boardwalk);
+        player.sellProperty(boardwalk, player);
+        assertEquals(1, player.getProperties().size());
+        assertEquals(1100, banker.getBalance(player));
+    }
 
-
-    //community chest cards
-//    @Test
-//    public void testPlayerCommunityChestCards() throws PlayerNotFoundException {
-//        Banker banker = Banker.getInstance();
-//        GameBoard gameBoard = new GameBoard();
-//        Player player = new HumanPlayer("TestPlayer", gameBoard);
-//        Token token = new Token("TestToken");
-//        player.setTokenToPlayer(token);
-//        banker.addPlayer(player);
-//        player.move(player, 2);
-//        assertEquals(2, player.getPosition());
-//        gameBoard.getCommunityChestCard().drawCard();
-//    }
 }
