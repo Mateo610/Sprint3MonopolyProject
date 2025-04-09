@@ -436,7 +436,6 @@ public class Banker {
      * Team member(s) responsible: Jamell
      */
     public void initializeProperties() {
-        // Initialize color groups
         ColorGroup brownGroup = new ColorGroup(PropertyColor.BROWN, 2);
         ColorGroup lightBlueGroup = new ColorGroup(PropertyColor.LIGHT_BLUE, 3);
         ColorGroup pinkGroup = new ColorGroup(PropertyColor.PINK, 3);
@@ -446,7 +445,6 @@ public class Banker {
         ColorGroup greenGroup = new ColorGroup(PropertyColor.GREEN, 3);
         ColorGroup blueGroup = new ColorGroup(PropertyColor.DARK_BLUE, 2);
 
-        // Initialize properties
         availableProperties.add(new Property("Mediterranean Avenue", 1, 60, 2, new int[]{10, 30, 90, 160}, 250, 30, PropertyColor.BROWN, brownGroup));
         availableProperties.add(new Property("Baltic Avenue", 3, 60, 4, new int[]{20, 60, 180, 320}, 450, 30, PropertyColor.BROWN, brownGroup));
         availableProperties.add(new Railroad("Reading Railroad", 5));

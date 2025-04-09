@@ -193,6 +193,21 @@ public class BankerTest {
         assertEquals(27, banker.getAvailableProperties().size());
     }
 
+    @Test
+    public void testAddHouseToAProperty(){
+        Banker banker = Banker.getInstance();
+        GameBoard board = GameBoard.getInstance();
+        Player player = new HumanPlayer("TestPlayer", board);
+        banker.addPlayer(player);
+        ColorGroup colorGroup = new ColorGroup(PropertyColor.DARK_BLUE, 2);
+        Property property = new Property("Boardwalk", 39, 400,
+                50, new int[]{200, 600, 1400, 1700}, 2000,
+                200, PropertyColor.DARK_BLUE, colorGroup);
+        banker.addTitleDeed(player, property);
+        assertEquals(32, banker.getAvailableHouses());
+        assertEquals(12, banker.getAvailableHotels());
+    }
+
 
 
 }

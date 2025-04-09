@@ -60,13 +60,6 @@ public class ColorGroupTest {
         assertEquals(3, newGroup.getPropertiesInGroup());
         assertTrue(newGroup.getProperties().isEmpty());
     }
-//
-//    @Test
-//    public void testAddProperty() {
-//        colorGroup.addProperty(boardwalk);
-//        assertEquals(1, colorGroup.getProperties().size());
-//        assertTrue(colorGroup.getProperties().contains(boardwalk));
-//    }
 
     @Test
     public void testAddMultipleProperties() {
@@ -96,11 +89,4 @@ public class ColorGroupTest {
         assertEquals(2, colorGroup.getProperties().size());
     }
 
-//    @Test
-//    public void testGetPropertiesReturnsCopy() {
-//        colorGroup.addProperty(boardwalk);
-//        List<Property> properties = colorGroup.getProperties();
-//        properties.clear(); // Modifying the returned list
-//        assertEquals(1, colorGroup.getProperties().size());
-//    }
 }
