@@ -338,57 +338,6 @@ public class Property extends BoardSpace {
         return true;
     }
 
-    /**
-     * Adds a house to the property
-     * @return true if house was successfully added
-     * Team member(s) responsible: Matt
-     */
-    public boolean addHouse() {
-        if (isMortgaged) {
-            return false;
-        }
-        if (numHouses < 4 && !hasHotel && canAddHouse()) {
-            numHouses++;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Upgrades the property to a hotel
-     * @return true if hotel was successfully added
-     * Team member(s) responsible: Original implementation team
-     */
-    public boolean addHotel() {
-        if (isMortgaged) {
-            return false;
-        }
-        if (numHouses == 4 && !hasHotel && canAddHotel()) {
-            numHouses = 0;
-            hasHotel = true;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if a house can be added based on game rules
-     * Team member(s) responsible: Matt
-     */
-    private boolean canAddHouse() {
-        if (!colorGroup.hasMonopoly(owner)) {
-            return false;
-        }
-        return colorGroup.canAddHouse(this);
-    }
-
-    /**
-     * Checks if a hotel can be added based on game rules
-     * Team member(s) responsible: Matt
-     */
-    private boolean canAddHotel() {
-        return colorGroup.canAddHotel(this);
-    }
 
     /**
      * Mortgages the property

@@ -281,16 +281,12 @@ public class Banker {
      * Team member(s) responsible: Matt
      */
     public void sellHouse(Property property, Player player) throws PlayerNotFoundException {
-        if (availableHouses <= 0) {
-            throw new InvalidTransactionException();
-        }
         if (property.getOwner() != player) {
             throw new InvalidTransactionException();
         }
-        int housePrice = property.getHousePrice();
-        withdraw(player, housePrice);
-        property.addHouse();
-        availableHouses--;
+        if (!property.buyHouse(this)) {
+            throw new InvalidTransactionException();
+        }
     }
 
     /**
@@ -303,20 +299,15 @@ public class Banker {
      *                                    Team member(s) responsible: Matt
      */
     public void sellHotel(Property property, Player player) throws PlayerNotFoundException {
-        if (availableHotels <= 0) {
-            throw new InvalidTransactionException();
-        }
         if (property.getOwner() != player) {
             throw new InvalidTransactionException();
         }
         if (property.getNumHouses() != 4) {
             throw new InvalidTransactionException();
         }
-        int hotelPrice = property.getHousePrice();
-        withdraw(player, hotelPrice);
-        property.addHotel();
-        availableHouses += 4;
-        availableHotels--;
+        if (!property.canBuyHotel(this)) {
+            throw new InvalidTransactionException();
+        }
     }
 
     /**
