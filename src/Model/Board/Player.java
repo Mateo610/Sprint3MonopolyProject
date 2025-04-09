@@ -8,6 +8,8 @@
 package Model.Board;
 
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Property.Property;
+import Model.Spaces.BoardSpace;
 
 
 public abstract class Player {
@@ -25,7 +27,7 @@ public abstract class Player {
      *
      * @param name  Player's name
      * @param board The game board
-     *              Team member(s) responsible: Matt
+     * Team member(s) responsible: Matt
      */
     public Player(String name, GameBoard board) {
         this.name = name;
@@ -34,6 +36,32 @@ public abstract class Player {
         this.jailTurns = 0;
         this.position = 0;
     }
+
+    /**
+     * Buy a property from the bank.
+     *
+     * @param space  The space to buy
+     * @param player The player buying the property
+     * Team member(s) responsible: Jamell
+     */
+    public abstract void sellProperty(BoardSpace space, Player player) throws PlayerNotFoundException;
+
+    /**
+     * Buy a house on the specified space.
+     * @param property  The space to sell
+     * @param player The player selling the house
+     * Team member(s) responsible: Jamell
+     */
+    public abstract void sellHouse(Property property, Player player) throws PlayerNotFoundException;
+
+
+    /**
+     * Buy a hotel on the specified space.
+     * @param property   The space to sell
+     * @param player The player selling the hotel
+     * Team member(s) responsible: Jamell
+     */
+    public abstract void sellHotel(Property property, Player player) throws PlayerNotFoundException;
 
     /***
      * Move the player on the board.

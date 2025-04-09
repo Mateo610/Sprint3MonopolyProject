@@ -8,6 +8,11 @@
 package Model.Board;
 
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Property.Property;
+import Model.Spaces.BoardSpace;
+
+
+import java.util.Random;
 
 /**
  * Represents a computer-controlled player in a Monopoly game.
@@ -15,6 +20,8 @@ import Model.Exceptions.PlayerNotFoundException;
  * Team member(s) responsible: Matt
  */
 public class ComputerPlayer extends Player {
+    private Banker banker;
+    private Random rand;
 
     /**
      * Constructor for ComputerPlayer.
@@ -25,6 +32,56 @@ public class ComputerPlayer extends Player {
      */
     public ComputerPlayer(String name, GameBoard board) {
         super("Cpu", board);
+        banker = Banker.getInstance();
+        rand = new Random();
+
+    }
+
+    /**
+     * Buy a property from the bank.
+     * @return Player's position
+     * Team member(s) responsible: Jamell
+     */
+    @Override
+    public void sellProperty(BoardSpace space, Player player) throws PlayerNotFoundException {
+        int chance = rand.nextInt(3) + 1;
+        if (chance == 1) {
+            banker.sellProperty(space, player);
+        } else
+        {
+            System.out.println("Banker didn't sell the property this time.");
+        }
+    }
+
+    /**
+     * Sell a house on the specified space.
+     * Team member(s) responsible: Jamell
+     */
+    @Override
+    public void sellHouse(Property property, Player player) throws PlayerNotFoundException {
+        int chance = rand.nextInt(3) + 1;
+        if (chance == 1) {
+            banker.sellHouse(property, player);
+        } else
+        {
+            System.out.println("Banker didn't sell the house this time.");
+        }
+    }
+
+
+    /**
+     * Sell a hotel on the specified space.
+     * Team member(s) responsible: Jamell
+     */
+    @Override
+    public void sellHotel(Property property, Player player) throws PlayerNotFoundException {
+        int chance = rand.nextInt(3) + 1;
+        if (chance == 1) {
+            banker.sellHotel(property, player);
+        } else
+        {
+            System.out.println("Banker didn't sell the hotel this time.");
+        }
     }
 
 
@@ -44,10 +101,5 @@ public class ComputerPlayer extends Player {
         getBoard().getBoardElements()[newPosition].onLanding(player);
     }
 
-    //monopoly buy logic
-    //buy property if not owned
-    //if owned, check if it is mortgaged
-    //if not mortgaged, check if the player can afford to pay rent
-    //jail logic
 
 }

@@ -1,6 +1,7 @@
 package Model.Board;
 
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Property.Property;
 import Model.Spaces.BoardSpace;
 
 /**
@@ -9,6 +10,7 @@ import Model.Spaces.BoardSpace;
  * Team member(s) responsible: Matt
  */
 public class HumanPlayer extends Player {
+    private Banker banker;
 
     /**
      * Constructor for HumanPlayer.
@@ -19,7 +21,34 @@ public class HumanPlayer extends Player {
      */
     public HumanPlayer(String name, GameBoard board) {
         super(name, board);
+        banker = Banker.getInstance();
     }
+
+    /**
+     * Buy a property from the bank.
+     * @return Player's position
+     * Team member(s) responsible: Jamell
+     */
+    @Override
+    public void sellProperty(BoardSpace space, Player player) throws PlayerNotFoundException {
+        banker.sellProperty(space, player);
+    }
+
+    /**
+     * Sell a house on the specified space.
+     * Team member(s) responsible: Jamell
+     */
+    @Override
+    public void sellHouse(Property property, Player player) throws PlayerNotFoundException {
+        banker.sellHouse(property, player);
+    }
+
+
+    @Override
+    public void sellHotel(Property property, Player player) throws PlayerNotFoundException{
+        banker.sellHotel(property, player);
+    }
+
 
 
     /***
