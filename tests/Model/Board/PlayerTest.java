@@ -3,6 +3,7 @@ package Model.Board;
 import static org.junit.jupiter.api.Assertions.*;
 
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Property.Property;
 import Model.Spaces.Railroad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,20 +107,65 @@ public class PlayerTest{
         assertEquals("Cpu", player.getName());
     }
 
+    @Test
+    public void testPlayerBuyHouse() throws PlayerNotFoundException {
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = GameBoard.getInstance();
+        Player player = new HumanPlayer("TestPlayer", gameBoard);
+        Token token = new Token("TestToken");
+        player.setTokenToPlayer(token);
+        banker.addPlayer(player);
+        player.move(player, 1);
+        assertEquals(1, player.getPosition());
+        assertEquals(1440, banker.getBalance(player));
+        assertEquals(1,player.getProperties().size());
+        Property property = (Property) player.getProperties().get(0);
+        player.sellHouse(property, player);
+        assertEquals(31, banker.getAvailableHouses());
+    }
 
-    //income tax
-//    @Test
-//    public void testPlayerMoveToIncomeTaxSpace() throws PlayerNotFoundException {
-//        Banker banker = Banker.getInstance();
-//        GameBoard gameBoard = new GameBoard();
-//        Player player = new HumanPlayer("TestPlayer", gameBoard);
-//        Token token = new Token("TestToken");
-//        player.setTokenToPlayer(token);
-//        banker.addPlayer(player);
-//        player.move(player, 4);
-//        assertEquals(4, player.getPosition());
-//        assertEquals(1400, banker.getBalance(player));
-//    }
+    @Test
+    public void testPlayerBuyHotel() throws PlayerNotFoundException {
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = GameBoard.getInstance();
+        Player player = new HumanPlayer("TestPlayer", gameBoard);
+        Token token = new Token("TestToken");
+        player.setTokenToPlayer(token);
+        banker.addPlayer(player);
+        player.move(player, 1);
+        assertEquals(1, player.getPosition());
+        assertEquals(1440, banker.getBalance(player));
+        assertEquals(1,player.getProperties().size());
+        Property property = (Property) player.getProperties().get(0);
+        player.sellHouse(property, player);
+        assertEquals(31, banker.getAvailableHouses());
+        player.sellHouse(property, player);
+        assertEquals(30, banker.getAvailableHouses());
+        player.sellHouse(property, player);
+        assertEquals(29, banker.getAvailableHouses());
+        player.sellHouse(property, player);
+        assertEquals(28, banker.getAvailableHouses());
+//        player.sellHotel(property, player);
+//        assertEquals(27, banker.getAvailableHotels());
+//        assertEquals(32, banker.getAvailableHouses());
+    }
+
+
+
+
+
+    @Test
+    public void testPlayerMoveToIncomeTaxSpace() throws PlayerNotFoundException {
+        Banker banker = Banker.getInstance();
+        GameBoard gameBoard = GameBoard.getInstance();
+        Player player = new HumanPlayer("TestPlayer", gameBoard);
+        Token token = new Token("TestToken");
+        player.setTokenToPlayer(token);
+        banker.addPlayer(player);
+        player.move(player, 4);
+        assertEquals(4, player.getPosition());
+        assertEquals(1350, banker.getBalance(player));
+    }
 
     //chance cards
 //    @Test

@@ -11,6 +11,8 @@ import Model.Exceptions.PlayerNotFoundException;
 import Model.Property.Property;
 import Model.Spaces.BoardSpace;
 
+import java.util.ArrayList;
+
 
 public abstract class Player {
 
@@ -21,6 +23,7 @@ public abstract class Player {
     private Token token;
     private int getOutOfJailFreeCards = 0;
     private int position;
+    private Banker banker;
 
     /**
      * Constructor for Player.
@@ -35,6 +38,11 @@ public abstract class Player {
         this.inJail = false;
         this.jailTurns = 0;
         this.position = 0;
+        this.banker = Banker.getInstance();
+    }
+
+    public ArrayList<BoardSpace> getProperties() throws PlayerNotFoundException {
+        return banker.getPlayerProperties(this);
     }
 
     /**
