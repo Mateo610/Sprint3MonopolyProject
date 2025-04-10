@@ -75,25 +75,29 @@ public class ColorGroup {
      *
      * @param property The property to check
      * @return true if a house can be added
-     * Team member(s) responsible: Matt
+     * Team member(s) responsible: Deborah
      */
-    public boolean canAddHouse(Property property) {
+    public boolean canBuyHouse(Property property) {
         if (!properties.contains(property)) {
             return false;
         }
 
-        int currentHouses = property.getNumHouses();
+        Player owner = property.getOwner();
+        if (owner == null) {
+            return false;
+        }
 
         for (Property p : properties) {
-            if (p.hasHotel()) {
-                continue;
-            }
-            if (currentHouses + 1 > p.getNumHouses() + 1) {
+            if (p.getOwner() != owner) {
                 return false;
             }
         }
 
-        return true;
+        int minHouses = getMinHouses();
+
+        int currentHouses = property.getNumHouses();
+
+        return currentHouses <= minHouses;
     }
 
     /**
@@ -101,9 +105,9 @@ public class ColorGroup {
      *
      * @param property The property to check
      * @return true if a hotel can be added
-     * Team member(s) responsible: Matt
+     * Team member(s) responsible: Deborah
      */
-    public boolean canAddHotel(Property property) {
+    public boolean canBuyHotel(Property property) {
         if (!properties.contains(property)) {
             return false;
         }
@@ -116,6 +120,13 @@ public class ColorGroup {
 
         return true;
     }
+
+    /**
+     * Checks if a house can be sold from the given property
+     * @param property
+     * @return true if a house can be sold
+     * Team member(s) responsible: Deborah
+     */
     public boolean canSellHouse(Property property) {
         if (!properties.contains(property)) {
             return false;

@@ -278,13 +278,16 @@ public class Banker {
      * @param player   The player buying the house
      * @throws PlayerNotFoundException    if player is not found
      * @throws InsufficientFundsException if player has insufficient funds
-     * Team member(s) responsible: Matt
+     * Team member(s) responsible: Deborah
      */
     public void sellHouse(Property property, Player player) throws PlayerNotFoundException {
+
         if (property.getOwner() != player) {
             throw new InvalidTransactionException();
         }
-        if (!property.buyHouse(this)) {
+        boolean buyResult = property.buyHouse(this);
+
+        if (!buyResult) {
             throw new InvalidTransactionException();
         }
     }
@@ -296,16 +299,13 @@ public class Banker {
      * @param player   The player buying the hotel
      * @throws PlayerNotFoundException    if player is not found
      * @throws InsufficientFundsException if player has insufficient funds
-     *                                    Team member(s) responsible: Matt
+     *                                    Team member(s) responsible: Deborah
      */
     public void sellHotel(Property property, Player player) throws PlayerNotFoundException {
         if (property.getOwner() != player) {
             throw new InvalidTransactionException();
         }
-        if (property.getNumHouses() != 4) {
-            throw new InvalidTransactionException();
-        }
-        if (!property.canBuyHotel(this)) {
+        if (!property.sellHotel(this)) {
             throw new InvalidTransactionException();
         }
     }

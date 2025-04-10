@@ -3,13 +3,13 @@ package Model.Property;
 import Model.Board.Banker;
 import Model.Board.HumanPlayer;
 import Model.Board.Player;
+import Model.Exceptions.PlayerNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ColorGroupTest {
     private ColorGroup colorGroup;
@@ -87,6 +87,66 @@ public class ColorGroupTest {
         );
         colorGroup.addProperty(extraProperty);
         assertEquals(2, colorGroup.getProperties().size());
+    }
+
+    @Test
+    public void testCanBuyHouse() throws PlayerNotFoundException {
+        boardwalk.setOwner(owner);
+        parkPlace.setOwner(owner);
+
+        assertTrue(colorGroup.canBuyHouse(boardwalk));
+        assertTrue(colorGroup.canBuyHouse(parkPlace));
+
+        boardwalk.buyHouse(banker);
+        assertTrue(colorGroup.canBuyHouse(parkPlace));
+        assertFalse(colorGroup.canBuyHouse(boardwalk));
+        assertEquals(1, boardwalk.getNumHouses());
+
+        parkPlace.buyHouse(banker);
+        assertTrue(colorGroup.canBuyHouse(boardwalk));
+        assertTrue(colorGroup.canBuyHouse(parkPlace));
+        assertEquals(1, parkPlace.getNumHouses());
+
+        boardwalk.buyHouse(banker);
+        parkPlace.buyHouse(banker);
+        assertEquals(2, boardwalk.getNumHouses());
+        assertEquals(2, parkPlace.getNumHouses());
+
+        boardwalk.buyHouse(banker);
+        parkPlace.buyHouse(banker);
+        assertEquals(3, boardwalk.getNumHouses());
+        assertEquals(3, parkPlace.getNumHouses());
+
+        banker.deposit(owner, 1000);
+
+        boardwalk.buyHouse(banker);
+        parkPlace.buyHouse(banker);
+        assertEquals(4, boardwalk.getNumHouses());
+        assertEquals(4, parkPlace.getNumHouses());
+
+        assertTrue(colorGroup.canBuyHotel(boardwalk));
+
+    }
+
+    @Test
+    public void testCanBuyHotel() throws PlayerNotFoundException {
+        banker.deposit(owner, 5000);
+
+        boardwalk.setOwner(owner);
+        parkPlace.setOwner(owner);
+
+        assertFalse(colorGroup.canBuyHotel(boardwalk));
+        assertFalse(colorGroup.canBuyHotel(parkPlace));
+        for (int i = 1; i <= 4; i++) {
+            boardwalk.buyHouse(banker);
+            parkPlace.buyHouse(banker);
+        }
+        assertTrue(colorGroup.canBuyHotel(boardwalk));
+        assertTrue(colorGroup.canBuyHotel(parkPlace));
+
+        boardwalk.buyHotel(banker);
+        assertTrue(boardwalk.hasHotel());
+        assertFalse(colorGroup.canBuyHotel(boardwalk));
     }
 
 }

@@ -152,16 +152,47 @@ public class Property extends BoardSpace {
      * @return true if the house was successfully bought
      * Team member(s) responsible: Deborah
      */
+
     public boolean buyHouse(Banker banker) {
-        if (!canBuyHouse(banker)) {
+        if (owner == null) {
             return false;
         }
+
+        if (isMortgaged) {
+            return false;
+        }
+
+        if (!colorGroup.hasMonopoly(owner)) {
+            return false;
+        }
+
+        if (hasHotel) {
+            return false;
+        }
+
+        if (numHouses >= 4) {
+            return false;
+        }
+
+        if (!colorGroup.canBuyHouse(this)) {
+            return false;
+        }
+
+        if (banker.getAvailableHouses() <= 0) {
+            return false;
+        }
+
         try {
+            if (banker.getBalance(owner) < housePrice) {
+                return false;
+            }
+
             banker.withdraw(owner, housePrice);
             banker.decrementAvailableHouses(1);
             numHouses++;
             return true;
         } catch (Exception e) {
+            System.out.println("Exception during house purchase: " + e.getMessage());
             return false;
         }
     }
@@ -188,7 +219,7 @@ public class Property extends BoardSpace {
         if (numHouses >= 4) {
             return false;
         }
-        if (!colorGroup.canAddHouse(this)) {
+        if (!colorGroup.canBuyHouse(this)) {
             return false;
         }
         if (banker.getAvailableHouses() <= 0) {
@@ -245,7 +276,7 @@ public class Property extends BoardSpace {
         if (hasHotel) {
             return false;
         }
-        if (!colorGroup.canAddHotel(this)) {
+        if (!colorGroup.canBuyHotel(this)) {
             return false;
         }
         if (banker.getAvailableHotels() <= 0) {
