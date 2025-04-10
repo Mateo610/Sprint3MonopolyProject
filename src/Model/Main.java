@@ -8,6 +8,7 @@
 package Model;
 import Model.Board.*;
 import Model.Exceptions.PlayerNotFoundException;
+import Model.Property.Property;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,50 @@ public class Main {
 
         System.out.println("");
         System.out.println("**Sprint 3 House Demo**");
+        Game demoGame = new Game();
+        GameBoard gameBoardDemo = GameBoard.getInstance();
+        Banker bankerHouses = Banker.getInstance();
+        Player player1Houses = new HumanPlayer("Alice", gameBoardDemo);
+        Player player2Houses = new HumanPlayer("Bob", gameBoardDemo);
+        demoGame.addPlayer(player1Houses);
+        demoGame.addPlayer(player2Houses);
+        System.out.println("Added players: " + player1Houses.getName() + ", " + player2Houses.getName());
+        demoGame.startGame();
+        Property mediterranean = (Property) gameBoardDemo.getSpace(1);
+        Property baltic = (Property) gameBoardDemo.getSpace(3);
 
-        System.out.println("");
-        System.out.println("**Sprint 3 Hotel Demo**");
+        bankerHouses.addTitleDeed(player1Houses, mediterranean);
+        bankerHouses.addTitleDeed(player1Houses, baltic);
+
+        System.out.println(player1Houses.getName() + " owns: " + bankerHouses.getPlayerProperties(player1Houses));
+        System.out.println("Monopoly achieved: " + mediterranean.getColorGroup().hasMonopoly(player1Houses));
+        for (int i = 0; i < 4; i++) {
+            if (mediterranean.canBuyHouse(bankerHouses)) {
+                mediterranean.buyHouse(bankerHouses);
+            }
+            if (baltic.canBuyHouse(bankerHouses)) {
+                baltic.buyHouse(bankerHouses);
+            }
+        }
+        System.out.println("\nHouse purchase results:");
+        System.out.println(mediterranean.getName() + " has " + mediterranean.getNumHouses() + " house(s)");
+        System.out.println(baltic.getName() + " has " + baltic.getNumHouses() + " house(s)");
+        System.out.println("Banker has " + bankerHouses.getAvailableHouses() + " houses left");
+
+        if (baltic.canBuyHotel(bankerHouses)) {
+            boolean hotelSuccess = baltic.buyHotel(bankerHouses);
+            System.out.println("\nHotel purchase on Baltic: " + (hotelSuccess ? "Success" : "Failed"));
+        } else {
+            System.out.println("\nBaltic not eligible for hotel purchase.");
+        }
+
+        System.out.println("\nAfter hotel purchase:");
+        System.out.println(baltic.getName() + " has hotel: " + baltic.hasHotel());
+        System.out.println(baltic.getName() + " houses after hotel: " + baltic.getNumHouses());
+        System.out.println("Banker has " + bankerHouses.getAvailableHotels() + " hotels left");
+        System.out.println("Banker has " + bankerHouses.getAvailableHouses() + " houses left");
+        Banker.reset();
+
 
         System.out.println("");
         System.out.println("**Sprint 3 Player Turn Demo**");
@@ -45,6 +87,8 @@ public class Main {
             System.out.print(turnResult);
             turnManager.nextTurn();
         }
+        Banker.reset();
+        GameBoard.resetInstance();
 
         System.out.println("");
         System.out.println("**Sprint 3 Cpu Player Actions Demo**");
